@@ -19,8 +19,8 @@ $events = EventRepository::getAll();
 <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
     <div class="container mx-auto px-4">
         <div class="max-w-3xl">
-            <h1 class="text-5xl font-bold mb-6">Réservez vos billets pour les meilleurs événements sportifs</h1>
-            <p class="text-xl mb-8">Découvrez et achetez vos billets pour les matchs de football, basketball, tennis et bien plus encore.</p>
+            <h1 class="text-5xl font-bold mb-6">Réservez vos billets pour les meilleurs matchs sportifs</h1>
+            <p class="text-xl mb-8">Découvrez et achetez vos billets pour les matchs de football.</p>
             <a href="#events" class="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition">
                 Explorer les matchs <i class="fas fa-arrow-right ml-2"></i>
             </a>
@@ -34,15 +34,6 @@ $events = EventRepository::getAll();
         <div class="flex flex-wrap gap-4 items-center">
             <div class="flex-1 min-w-[200px]">
                 <input type="text" id="searchInput" placeholder="Rechercher un match..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div class="min-w-[180px]">
-                <select id="locationFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Toutes les villes</option>
-                    <option value="casablanca">Casablanca</option>
-                    <option value="rabat">Rabat</option>
-                    <option value="marrakech">Marrakech</option>
-                    <option value="tanger">Tanger</option>
-                </select>
             </div>
             <div class="min-w-[180px]">
                 <select id="sportFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -82,15 +73,9 @@ $events = EventRepository::getAll();
                             <?= $event->getEquipeExterieure()->getNom() ?>
                         </h3>
 
-                        <p class="text-gray-600">
-                            📍 <?= $event->getLieu() ?>
-                        </p>
-                        <p class="text-gray-600">
-                            📅 <?= $event->getDate()->format('d/m/Y H:i') ?>
-                        </p>
 
                         <div class="mt-4 flex justify-between items-center">
-                            <a href="event_detail.php?id=<?= $event->getId() ?>"
+                            <a href="event_details.php?id=<?= $event->getId() ?>"
                                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                                 Détails
                             </a>
