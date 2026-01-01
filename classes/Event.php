@@ -8,11 +8,8 @@ class Event
     private string $lieu;
     private int $duree;
     private string $statut;
-
     private Team $equipeDomicile;
     private Team $equipeExterieure;
-
-    private array $categories = [];
 
     public function __construct(
         int $id,
@@ -20,6 +17,7 @@ class Event
         DateTime $date,
         string $lieu,
         int $duree,
+        string $statut,
         Team $domicile,
         Team $exterieure
     ) {
@@ -28,10 +26,15 @@ class Event
         $this->date = $date;
         $this->lieu = $lieu;
         $this->duree = $duree;
+        $this->statut = $statut;
         $this->equipeDomicile = $domicile;
         $this->equipeExterieure = $exterieure;
     }
 
-    public function publier() {}
-    public function ajouterCategorie(Category $category) {}
+    public function getId() { return $this->id; }
+    public function getTitre() { return $this->titre; }
+    public function getDate() { return $this->date; }
+    public function getLieu() { return $this->lieu; }
+    public function getEquipeDomicile() { return $this->equipeDomicile; }
+    public function getEquipeExterieure() { return $this->equipeExterieure; }
 }

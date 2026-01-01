@@ -1,7 +1,5 @@
 <?php
-
-class Team
-{
+class Team {
     private int $id;
     private string $nom;
     private string $logo;
@@ -12,4 +10,8 @@ class Team
         $this->nom = $nom;
         $this->logo = $logo;
     }
+
+    public function getNom(): string { return $this->nom; }
+    public function getLogo(): string { return $this->logo; }
 }
+
