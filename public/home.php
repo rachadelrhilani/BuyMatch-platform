@@ -13,7 +13,7 @@ include '../includes/header.php';
 <body>
 
 
-<!-- Hero Section -->
+
 <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
     <div class="container mx-auto px-4">
         <div class="max-w-3xl">
@@ -26,8 +26,8 @@ include '../includes/header.php';
     </div>
 </section>
 
-<!-- Filter Section -->
-<section class="bg-white py-8 shadow-md">
+
+<section class="bg-white py-8">
     <div class="container mx-auto px-4">
         <div class="flex flex-wrap gap-4 items-center">
             <div class="flex-1 min-w-[200px]">

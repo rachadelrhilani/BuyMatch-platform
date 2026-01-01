@@ -4,17 +4,17 @@
             <!-- Logo -->
             <a href="home.php" class="flex items-center space-x-2">
                 <i class="fas fa-ticket-alt text-blue-600 text-2xl"></i>
-                <span class="text-xl font-bold text-gray-800">SportTicket</span>
+                <span class="text-xl font-bold text-gray-800">Buymatch</span>
             </a>
 
-            <!-- Desktop Navigation -->
+            
             <div class="hidden md:flex items-center space-x-8">
                 <a href="home.php" class="text-gray-700 hover:text-blue-600 transition">Accueil</a>
                 <a href="#events" class="text-gray-700 hover:text-blue-600 transition">Matchs</a>
                 <a href="#about" class="text-gray-700 hover:text-blue-600 transition">À propos</a>
             </div>
 
-            <!-- Auth Buttons -->
+            
             <div class="hidden md:flex items-center space-x-4">
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <span class="text-gray-700">Bienvenue, <?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
