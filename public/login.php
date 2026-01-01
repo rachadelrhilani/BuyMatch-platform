@@ -9,7 +9,7 @@ include '../includes/header.php';
 
 <section class="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-blue-50 to-blue-100">
     <div class="max-w-md w-full">
-        <!-- Logo and Title -->
+        
         <div class="text-center mb-8">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
                 <i class="fas fa-ticket-alt text-white text-2xl"></i>
@@ -18,10 +18,9 @@ include '../includes/header.php';
             <p class="text-gray-600 mt-2">Accédez à votre compte SportTicket</p>
         </div>
 
-        <!-- Login Form -->
+        
         <div class="bg-white rounded-lg shadow-xl p-8">
             <form id="loginForm" method="POST" action="process_login.php">
-                <!-- Email -->
                 <div class="mb-6">
                     <label for="email" class="block text-gray-700 font-semibold mb-2">
                         <i class="fas fa-envelope mr-2 text-blue-600"></i>Email
@@ -31,7 +30,7 @@ include '../includes/header.php';
                            placeholder="votre@email.com">
                 </div>
 
-                <!-- Password -->
+                
                 <div class="mb-6">
                     <label for="password" class="block text-gray-700 font-semibold mb-2">
                         <i class="fas fa-lock mr-2 text-blue-600"></i>Mot de passe
@@ -46,21 +45,15 @@ include '../includes/header.php';
                     </div>
                 </div>
 
-                <!-- Remember Me & Forgot Password -->
-                <div class="flex items-center justify-between mb-6">
-                    <label class="flex items-center">
-                        <input type="checkbox" name="remember" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                        <span class="ml-2 text-sm text-gray-600">Se souvenir de moi</span>
-                    </label>
-                    <a href="#" class="text-sm text-blue-600 hover:text-blue-700">Mot de passe oublié?</a>
-                </div>
+                
+            
 
-                <!-- Submit Button -->
+                
                 <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition transform hover:scale-105">
                     Se connecter
                 </button>
 
-                <!-- Divider -->
+               
                 <div class="relative my-6">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-gray-300"></div>
@@ -70,20 +63,11 @@ include '../includes/header.php';
                     </div>
                 </div>
 
-                <!-- Social Login -->
-                <div class="space-y-3">
-                    <button type="button" class="w-full py-3 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition flex items-center justify-center">
-                        <i class="fab fa-google text-red-500 mr-2"></i>
-                        Continuer avec Google
-                    </button>
-                    <button type="button" class="w-full py-3 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition flex items-center justify-center">
-                        <i class="fab fa-facebook text-blue-600 mr-2"></i>
-                        Continuer avec Facebook
-                    </button>
-                </div>
+                
+                
             </form>
 
-            <!-- Register Link -->
+            
             <div class="mt-6 text-center">
                 <p class="text-gray-600">
                     Vous n'avez pas de compte? 
@@ -92,7 +76,7 @@ include '../includes/header.php';
             </div>
         </div>
 
-        <!-- Back to Home -->
+        
         <div class="text-center mt-6">
             <a href="index.php" class="text-gray-600 hover:text-gray-800 transition">
                 <i class="fas fa-arrow-left mr-2"></i>Retour à l'accueil
@@ -102,7 +86,7 @@ include '../includes/header.php';
 </section>
 
 <script>
-    // Toggle password visibility
+    
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
 
@@ -115,7 +99,7 @@ include '../includes/header.php';
         icon.classList.toggle('fa-eye-slash');
     });
 
-    // Form validation
+    
     document.getElementById('loginForm').addEventListener('submit', (e) => {
         e.preventDefault();
         

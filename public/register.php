@@ -1,7 +1,5 @@
 <?php
 $pageTitle = "Inscription - BuyMatch";
-
-
 include '../includes/header.php';
 ?>
 
@@ -16,14 +14,25 @@ include '../includes/header.php';
         </div>
 
         <div class="bg-white rounded-lg shadow-xl p-8">
-            <form id="registerForm" method="POST" action="process_register.php">
-                <div class="mb-6">
-                    <label for="fullname" class="block text-gray-700 font-semibold mb-2">
-                        <i class="fas fa-user mr-2 text-blue-600"></i>Nom complet
-                    </label>
-                    <input type="text" id="fullname" name="fullname" required 
-                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                           placeholder="Prénom Nom">
+            <form id="registerForm" method="POST">
+                
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label for="firstname" class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-user mr-2 text-blue-600"></i>Prénom
+                        </label>
+                        <input type="text" id="firstname" name="firstname" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                               placeholder="Jean">
+                    </div>
+                    <div>
+                        <label for="lastname" class="block text-gray-700 font-semibold mb-2">
+                            Nom
+                        </label>
+                        <input type="text" id="lastname" name="lastname" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                               placeholder="Dupont">
+                    </div>
                 </div>
 
                 <div class="mb-6">
@@ -32,10 +41,9 @@ include '../includes/header.php';
                     </label>
                     <input type="email" id="email" name="email" required 
                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                           placeholder="votre@email.com">
+                           placeholder="votre@gmail.com">
                 </div>
 
-                <!-- Phone -->
                 <div class="mb-6">
                     <label for="phone" class="block text-gray-700 font-semibold mb-2">
                         <i class="fas fa-phone mr-2 text-blue-600"></i>Téléphone
@@ -45,7 +53,28 @@ include '../includes/header.php';
                            placeholder="+212 6XX XXX XXX">
                 </div>
 
-                <!-- Password -->
+                <div class="mb-6">
+                    <label for="role" class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-user-tag mr-2 text-blue-600"></i>Type de compte
+                    </label>
+                    <select id="role" name="role" required 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition bg-white">
+                        <option value="acheteur">Acheteur (Particulier)</option>
+                        <option value="organisateur">Organisateur (Événements)</option>
+                        <option value="admin">Administrateur</option>
+                    </select>
+                </div>
+
+                <div class="mb-6">
+                    <label for="photo" class="block text-gray-700 font-semibold mb-2">
+                        <i class="fas fa-camera mr-2 text-blue-600"></i>Photo de profil
+                    </label>
+                    <input type="file" id="photo" name="photo" accept="image/*"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition
+                                  file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <p class="text-xs text-gray-500 mt-1">Obligatoire pour les acheteurs et organisateurs</p>
+                </div>
+
                 <div class="mb-6">
                     <label for="password" class="block text-gray-700 font-semibold mb-2">
                         <i class="fas fa-lock mr-2 text-blue-600"></i>Mot de passe
@@ -58,10 +87,8 @@ include '../includes/header.php';
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
-                    <p class="text-xs text-gray-500 mt-1">Minimum 8 caractères</p>
                 </div>
 
-                <!-- Confirm Password -->
                 <div class="mb-6">
                     <label for="confirm_password" class="block text-gray-700 font-semibold mb-2">
                         <i class="fas fa-lock mr-2 text-blue-600"></i>Confirmer le mot de passe
@@ -70,71 +97,38 @@ include '../includes/header.php';
                         <input type="password" id="confirm_password" name="confirm_password" required 
                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                                placeholder="••••••••">
-                        <button type="button" id="toggleConfirmPassword" class="absolute right-3 top-3.5 text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-eye"></i>
-                        </button>
                     </div>
                 </div>
 
-                <!-- Terms and Conditions -->
                 <div class="mb-6">
                     <label class="flex items-start">
                         <input type="checkbox" name="terms" required class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1">
                         <span class="ml-2 text-sm text-gray-600">
-                            J'accepte les <a href="#" class="text-blue-600 hover:text-blue-700">conditions d'utilisation</a> 
-                            et la <a href="#" class="text-blue-600 hover:text-blue-700">politique de confidentialité</a>
+                            J'accepte les <a href="#" class="text-blue-600 hover:text-blue-700">conditions d'utilisation</a>
                         </span>
                     </label>
                 </div>
 
-                <!-- Submit Button -->
                 <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition transform hover:scale-105">
                     Créer mon compte
                 </button>
 
-                <!-- Divider -->
                 <div class="relative my-6">
-                    <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-gray-300"></div>
-                    </div>
-                    <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-white text-gray-500">Ou</span>
-                    </div>
-                </div>
-
-                <!-- Social Register -->
-                <div class="space-y-3">
-                    <button type="button" class="w-full py-3 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition flex items-center justify-center">
-                        <i class="fab fa-google text-red-500 mr-2"></i>
-                        S'inscrire avec Google
-                    </button>
-                    <button type="button" class="w-full py-3 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition flex items-center justify-center">
-                        <i class="fab fa-facebook text-blue-600 mr-2"></i>
-                        S'inscrire avec Facebook
-                    </button>
+                    <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-300"></div></div>
+                    <div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-gray-500">Ou</span></div>
                 </div>
             </form>
 
-            <!-- Login Link -->
             <div class="mt-6 text-center">
-                <p class="text-gray-600">
-                    Vous avez déjà un compte? 
-                    <a href="login.php" class="text-blue-600 font-semibold hover:text-blue-700">Se connecter</a>
-                </p>
+                <p class="text-gray-600">Vous avez déjà un compte? <a href="login.php" class="text-blue-600 font-semibold hover:text-blue-700">Se connecter</a></p>
             </div>
-        </div>
-
-        <!-- Back to Home -->
-        <div class="text-center mt-6">
-            <a href="index.php" class="text-gray-600 hover:text-gray-800 transition">
-                <i class="fas fa-arrow-left mr-2"></i>Retour à l'accueil
-            </a>
         </div>
     </div>
 </section>
 
+
 <script>
-    // Toggle password visibility
+    
     const togglePassword = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
     const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
@@ -158,7 +152,7 @@ include '../includes/header.php';
         icon.classList.toggle('fa-eye-slash');
     });
 
-    // Form validation
+    
     document.getElementById('registerForm').addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -169,7 +163,7 @@ include '../includes/header.php';
         const confirmPassword = document.getElementById('confirm_password').value;
         const terms = document.querySelector('input[name="terms"]').checked;
 
-        // Validation
+        
         if(!fullname || !email || !phone || !password || !confirmPassword) {
             alert('Veuillez remplir tous les champs');
             return;
