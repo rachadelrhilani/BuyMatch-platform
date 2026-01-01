@@ -2,8 +2,10 @@
 $pageTitle = "Accueil - SportTicket";
 include '../includes/header.php';
 require_once '../repositories/EventRepository.php';
+$search = $_GET['search'] ?? null;
+$lieu   = $_GET['lieu'] ?? null;
 
-$events = EventRepository::getAll();
+$events = EventRepository::filter($search, $lieu);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,28 +30,36 @@ $events = EventRepository::getAll();
     </div>
 </section>
 
-
-<section class="bg-white py-8">
+<!-- Search & Filter Section -->
+<section id="events" class="py-8 bg-white shadow-sm">
     <div class="container mx-auto px-4">
-        <div class="flex flex-wrap gap-4 items-center">
-            <div class="flex-1 min-w-[200px]">
-                <input type="text" id="searchInput" placeholder="Rechercher un match..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <form method="GET" class="flex flex-col md:flex-row gap-4 items-center bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
+            <div class="flex-1 w-full">
+                <input 
+                    type="text" 
+                    name="search" 
+                    placeholder="Rechercher un match (équipe, titre...)"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    value="<?= htmlspecialchars($search ?? '') ?>"
+                >
             </div>
-            <div class="min-w-[180px]">
-                <select id="sportFilter" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Tous les sports</option>
-                    <option value="football">Football</option>
-                    <option value="basketball">Basketball</option>
-                    <option value="tennis">Tennis</option>
-                    <option value="volleyball">Volleyball</option>
+
+            <div class="w-full md:w-64">
+                <select name="lieu" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <option value="">Toutes les villes</option>
+                    <option value="casablanca" <?= ($lieu === 'casablanca') ? 'selected' : '' ?>>Casablanca</option>
+                    <option value="rabat" <?= ($lieu === 'rabat') ? 'selected' : '' ?>>Rabat</option>
+                    <option value="marrakech" <?= ($lieu === 'marrakech') ? 'selected' : '' ?>>Marrakech</option>
                 </select>
             </div>
-            <button id="filterBtn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                <i class="fas fa-filter mr-2"></i>Filtrer
+
+            <button type="submit" class="w-full md:w-auto px-8 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition shadow-md">
+                <i class="fas fa-search mr-2"></i> Filtrer
             </button>
-        </div>
+        </form>
     </div>
 </section>
+
 
 <!-- Events Section -->
 <section class="py-16">
