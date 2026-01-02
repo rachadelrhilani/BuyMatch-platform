@@ -5,9 +5,9 @@
                 <div>
                     <div class="flex items-center space-x-2 mb-4">
                         <i class="fas fa-ticket-alt text-blue-400 text-2xl"></i>
-                        <span class="text-xl font-bold">SportTicket</span>
+                        <span class="text-xl font-bold">Buymatch</span>
                     </div>
-                    <p class="text-gray-400">Votre plateforme de réservation de billets pour tous les événements sportifs.</p>
+                    <p class="text-gray-400">Votre plateforme de réservation de billets pour tous les matchs sportifs.</p>
                 </div>
 
                 <!-- Quick Links -->
@@ -20,15 +20,7 @@
                     </ul>
                 </div>
 
-                <!-- Support -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Support</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Centre d'aide</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Conditions d'utilisation</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">Politique de confidentialité</a></li>
-                    </ul>
-                </div>
+                
 
                 <!-- Contact -->
                 <div>
@@ -42,7 +34,7 @@
             </div>
 
             <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-                <p class="text-gray-400">&copy; <?php echo date('Y'); ?> SportTicket. Tous droits réservés.</p>
+                <p class="text-gray-400">&copy; <?php echo date('Y'); ?> Buymatch. Tous droits réservés.</p>
             </div>
         </div>
     </footer>

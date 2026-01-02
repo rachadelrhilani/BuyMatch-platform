@@ -21,7 +21,7 @@ class UserRepository
         $role = $data['role'];
         $password = password_hash($data['password'], PASSWORD_BCRYPT);
 
-        
+
         $photoName = $data['photo'];
         if (!empty($file['photo']['name'])) {
             $ext = pathinfo($file['photo']['name'], PATHINFO_EXTENSION);
@@ -29,7 +29,7 @@ class UserRepository
             move_uploaded_file($file['photo']['tmp_name'], "../uploads/avatars/$photoName");
         }
 
-       
+
         $stmt = $this->db->prepare("SELECT id FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->fetch()) {
@@ -52,7 +52,7 @@ class UserRepository
 
         $id = (int)$this->db->lastInsertId();
 
-       
+
         if ($role === 'acheteur') {
             return new Acheteur($id, $nom, $email, $telephone, $photoName, $password);
         } else {
@@ -60,7 +60,51 @@ class UserRepository
         }
     }
 
-   
+    public function login(string $email, string $password): ?User
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user || !password_verify($password, $user['password'])) {
+            return null;
+        }
+
+        switch ($user['role']) {
+            case 'admin':
+                return new Admin(
+                    $user['id'],
+                    $user['nom'],
+                    $user['email'],
+                    $user['telephone'],
+                    $user['photo'],
+                    $user['password']
+                );
+
+            case 'organisateur':
+                return new Organisateur(
+                    $user['id'],
+                    $user['nom'],
+                    $user['email'],
+                    $user['telephone'],
+                    $user['photo'],
+                    $user['password']
+                );
+
+            case 'acheteur':
+                return new Acheteur(
+                    $user['id'],
+                    $user['nom'],
+                    $user['email'],
+                    $user['telephone'],
+                    $user['photo'],
+                    $user['password']
+                );
+        }
+
+        return null;
+    }
+
     public function findByEmail(string $email): ?User
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
@@ -70,8 +114,7 @@ class UserRepository
 
         if ($row['role'] === 'acheteur') {
             return new Acheteur($row['id'], $row['nom'], $row['email'], $row['telephone'], $row['photo'], $row['password']);
-        } 
-        else{
+        } else {
             return new Organisateur($row['id'], $row['nom'], $row['email'], $row['telephone'], $row['photo'], $row['password']);
         }
     }

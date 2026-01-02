@@ -1,6 +1,6 @@
 <?php
 session_start();
-$pageTitle = "Connexion - SportTicket";
+$pageTitle = "Connexion - BuyMatch";
 
 
 
@@ -15,7 +15,7 @@ include '../includes/header.php';
                 <i class="fas fa-ticket-alt text-white text-2xl"></i>
             </div>
             <h2 class="text-3xl font-bold text-gray-800">Connexion</h2>
-            <p class="text-gray-600 mt-2">Accédez à votre compte SportTicket</p>
+            <p class="text-gray-600 mt-2">Accédez à votre compte BuyMatch</p>
         </div>
 
         
