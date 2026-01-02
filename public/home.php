@@ -5,7 +5,8 @@ require_once '../repositories/EventRepository.php';
 $search = $_GET['search'] ?? null;
 $lieu   = $_GET['lieu'] ?? null;
 
-$events = EventRepository::filter($search, $lieu);
+$eventrep = new EventRepository();
+$events = $eventrep->filter($search,$lieu);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,9 +72,9 @@ $events = EventRepository::filter($search, $lieu);
                 <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition">
 
                     <div class="relative bg-gray-100 h-48 flex items-center justify-center">
-                        <img src="<?= $event->getEquipeDomicile()->getLogo() ?>" class="w-20 mx-4">
+                        <img src="../uploads/teams/<?= htmlspecialchars($event->getEquipeDomicile()->getLogo()) ?>" class="w-20 mx-4">
                         <span class="text-3xl font-bold">VS</span>
-                        <img src="<?= $event->getEquipeExterieure()->getLogo() ?>" class="w-20 mx-4">
+                        <img src="../uploads/teams/<?= htmlspecialchars($event->getEquipeExterieure()->getLogo()) ?>" class="w-20 mx-4">
                     </div>
 
                     <div class="p-6">

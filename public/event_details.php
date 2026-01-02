@@ -7,8 +7,8 @@ if (!isset($_GET['id'])) {
     header("Location: index.php");
     exit;
 }
-
-$event = EventRepository::findById((int)$_GET['id']);
+$eventrepo = new EventRepository();
+$event = $eventrepo->findById((int)$_GET['id']);
 
 if (!$event) {
     die("Événement introuvable");
