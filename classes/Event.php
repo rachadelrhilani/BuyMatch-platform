@@ -35,6 +35,7 @@ class Event
     public function getTitre() { return $this->titre; }
     public function getDate() { return $this->date; }
     public function getLieu() { return $this->lieu; }
+    public function getStatut() { return $this->statut; }
     public function getEquipeDomicile() { return $this->equipeDomicile; }
     public function getEquipeExterieure() { return $this->equipeExterieure; }
 }

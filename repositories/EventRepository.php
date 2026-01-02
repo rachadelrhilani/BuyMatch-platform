@@ -2,6 +2,8 @@
 require_once '../classes/Database.php';
 require_once '../classes/Event.php';
 require_once '../classes/Team.php';
+require_once '../classes/Comment.php';
+require_once '../classes/Category.php';
 
 class EventRepository
 {
@@ -17,14 +19,14 @@ class EventRepository
         $this->db->beginTransaction();
 
         try {
-            
+
             $logo1 = uniqid() . '_' . $files['equipe1_logo']['name'];
             $logo2 = uniqid() . '_' . $files['equipe2_logo']['name'];
 
             move_uploaded_file($files['equipe1_logo']['tmp_name'], "../uploads/teams/$logo1");
             move_uploaded_file($files['equipe2_logo']['tmp_name'], "../uploads/teams/$logo2");
 
-            
+
             $stmt = $this->db->prepare("INSERT INTO equipes (nom, logo) VALUES (?, ?)");
             $stmt->execute([$data['equipe1_nom'], $logo1]);
             $equipe1_id = $this->db->lastInsertId();
@@ -32,7 +34,7 @@ class EventRepository
             $stmt->execute([$data['equipe2_nom'], $logo2]);
             $equipe2_id = $this->db->lastInsertId();
 
-           
+
             $stmt = $this->db->prepare("
                 INSERT INTO events 
                 (titre, date_event, lieu, duree, statut, equipe_1_id, equipe_2_id, organisateur_id)
@@ -51,7 +53,7 @@ class EventRepository
 
             $eventId = $this->db->lastInsertId();
 
-            
+
             foreach ($data['categories'] as $cat) {
                 $stmt = $this->db->prepare("
                     INSERT INTO categories (event_id, nom, prix, capacite)
@@ -67,7 +69,6 @@ class EventRepository
 
             $this->db->commit();
             return true;
-
         } catch (Exception $e) {
             $this->db->rollBack();
             return false;
@@ -112,22 +113,69 @@ class EventRepository
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function getByOrganisateur(int $organisateurId): array
+    {
+        $sql = "
+        SELECT e.*, 
+               t1.nom AS equipe1_nom, t1.logo AS equipe1_logo,
+               t2.nom AS equipe2_nom, t2.logo AS equipe2_logo
+        FROM events e
+        JOIN equipes t1 ON e.equipe_1_id = t1.id
+        JOIN equipes t2 ON e.equipe_2_id = t2.id
+        WHERE e.organisateur_id = ?
+        ORDER BY e.date_event DESC
+    ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$organisateurId]);
+
+        $events = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $equipe1 = new Team($row['equipe_1_id'], $row['equipe1_nom'], $row['equipe1_logo']);
+            $equipe2 = new Team($row['equipe_2_id'], $row['equipe2_nom'], $row['equipe2_logo']);
+
+            $events[] = new Event(
+                $row['id'],
+                $row['titre'],
+                new DateTime($row['date_event']),
+                $row['lieu'],
+                (int)$row['duree'],
+                $row['statut'],
+                $equipe1,
+                $equipe2
+            );
+        }
+
+        return $events;
+    }
 
     public function getCommentairesByOrganisateur(int $id): array
     {
         $sql = "
-        SELECT c.*, u.nom 
+        SELECT c.*
         FROM comments c
         JOIN events e ON e.id = c.event_id
-        JOIN users u ON u.id = c.user_id
         WHERE e.organisateur_id = ?
         ORDER BY c.created_at DESC
-        ";
+    ";
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$id]);
-        return $stmt->fetchAll();
+
+        $comments = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $comments[] = new Comment(
+                $row['id'],
+                $row['contenu'],
+                (int)$row['note'],
+                $row['statut']
+            );
+        }
+
+        return $comments;
     }
+
     public function findById(int $id): ?Event
     {
         $sql = "SELECT 

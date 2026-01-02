@@ -14,4 +14,20 @@ class Comment
         $this->note = $note;
         $this->statut = $statut;
     }
+
+    public function getContenu(): string
+    {
+        return $this->contenu;
+    }
+
+    public function getNote(): int
+    {
+        return $this->note;
+    }
+
+    public function getStatut(): string
+    {
+        return $this->statut;
+    }
 }
+

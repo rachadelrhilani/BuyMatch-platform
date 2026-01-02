@@ -12,4 +12,15 @@ class Category
         $this->nom = $nom;
         $this->prix = $prix;
     }
+
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    public function getPrix(): float
+    {
+        return $this->prix;
+    }
 }
+
