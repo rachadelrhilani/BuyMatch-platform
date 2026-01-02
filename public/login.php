@@ -18,7 +18,11 @@ include '../includes/header.php';
             <p class="text-gray-600 mt-2">Accédez à votre compte BuyMatch</p>
         </div>
 
-        
+        <?php if ($_SESSION['error']): ?>
+            <p class="text-green-600 bg-green-100 p-3 rounded-lg mb-4">
+                <?= htmlspecialchars($_SESSION['error']); ?>
+            </p>
+        <?php endif; ?>
         <div class="bg-white rounded-lg shadow-xl p-8">
             <form id="loginForm" method="POST" action="process_login.php">
                 <div class="mb-6">
@@ -97,26 +101,6 @@ include '../includes/header.php';
         const icon = togglePassword.querySelector('i');
         icon.classList.toggle('fa-eye');
         icon.classList.toggle('fa-eye-slash');
-    });
-
-    
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        if(!email || !password) {
-            alert('Veuillez remplir tous les champs');
-            return;
-        }
-
-        // Simulate login (replace with actual backend call)
-        console.log('Login attempt:', { email, password });
-        
-        // For demo purposes
-        alert('Connexion réussie!');
-        window.location.href = 'index.php';
     });
 </script>
 

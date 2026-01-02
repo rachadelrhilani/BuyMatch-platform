@@ -18,7 +18,31 @@ abstract class User
         $this->photo= $photo;
         $this->password = $password;
     }
+// GETTERS
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getTelephone(): string
+    {
+        return $this->telephone;
+    }
+
+    public function getPhoto(): string
+    {
+        return $this->photo;
+    }
     public function login() {}
     public function logout() {}
     public function updateProfile(array $data) {}
