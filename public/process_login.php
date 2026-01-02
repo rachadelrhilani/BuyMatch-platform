@@ -24,6 +24,7 @@ $_SESSION['user'] = [
     'id' => $user->getId(),
     'nom' => $user->getNom(),
     'email' => $user->getEmail(),
+    'photo' => $user->getPhoto(),
     'role' => strtolower((new ReflectionClass($user))->getShortName())
 ];
 

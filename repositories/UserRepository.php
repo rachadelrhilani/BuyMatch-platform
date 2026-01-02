@@ -42,10 +42,10 @@ class UserRepository
         $stmt = $this->db->prepare("SELECT id FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->fetch()) {
-            return null; // Email déjà utilisé
+            return null; 
         }
 
-        // Insérer dans la base
+        
         $stmt = $this->db->prepare("
             INSERT INTO users (nom, email, telephone, photo, password, role)
             VALUES (:nom, :email, :telephone, :photo, :password, :role)
@@ -113,7 +113,21 @@ class UserRepository
 
         return null;
     }
+    
+    public static function logout()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
+        $_SESSION = [];
+
+
+        session_destroy();
+
+        header("Location: ../public/login.php");
+        exit;
+    }
     public function findByEmail(string $email): ?User
     {
         $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");

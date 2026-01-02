@@ -45,5 +45,6 @@ abstract class User
     }
     public function login() {}
     public function logout() {}
+    public function register(array $data, array $file){}
     public function updateProfile(array $data) {}
 }
