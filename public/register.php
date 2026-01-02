@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <div class="bg-white rounded-lg shadow-xl p-8">
-            <form id="registerForm" method="POST">
+            <form id="registerForm" method="POST" enctype="multipart/form-data">
 
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <div>

@@ -22,11 +22,20 @@ class UserRepository
         $password = password_hash($data['password'], PASSWORD_BCRYPT);
 
 
-        $photoName = $data['photo'];
-        if (!empty($file['photo']['name'])) {
+        $photoName = "default.png";
+
+       
+        if (!empty($file['photo']['name']) && $file['photo']['error'] === 0) {
             $ext = pathinfo($file['photo']['name'], PATHINFO_EXTENSION);
             $photoName = uniqid() . '.' . $ext;
-            move_uploaded_file($file['photo']['tmp_name'], "../uploads/avatars/$photoName");
+
+            
+            $uploadPath = "../uploads/avatars/";
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+
+            move_uploaded_file($file['photo']['tmp_name'], $uploadPath . $photoName);
         }
 
 
