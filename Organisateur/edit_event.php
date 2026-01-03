@@ -13,9 +13,11 @@ if (!isset($_GET['id'])) {
 $eventId = (int) $_GET['id'];
 $organisateurId = $_SESSION['user']['id'];
 
+
+
 $event = $repo->getEventById($eventId);
 
-// sécurité : event inexistant ou pas propriétaire
+
 if (!$event || $event['organisateur_id'] != $organisateurId) {
     header('Location: my_events.php');
     exit;
@@ -23,9 +25,40 @@ if (!$event || $event['organisateur_id'] != $organisateurId) {
 
 $categories = $repo->getCategoriesByEvent($eventId);
 $capacite = $categories[0]->getCapacite() ?? 0;
-// séparer date / heure
+
+
 $date = date('Y-m-d', strtotime($event['date_event']));
 $heure = date('H:i', strtotime($event['date_event']));
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = [
+    'titre' => $_POST['titre'],
+    'date_event' => $_POST['date_event'] . ' ' . $_POST['heure_event'],
+    'lieu' => $_POST['lieu'],
+    'duree' => $_POST['duree'],
+    'equipe1_nom' => $_POST['equipe1_nom'],
+    'equipe2_nom' => $_POST['equipe2_nom'],
+    'capacite' => $_POST['capacite'],
+    'categories' => []
+];
+
+foreach ($_POST['categorie'] as $i => $nom) {
+    $data['categories'][] = [
+        'id' => $_POST['categorie_id'][$i],
+        'nom' => $nom,
+        'prix' => $_POST['prix'][$i]
+    ];
+}
+
+$repo->updateEvent(
+    $eventId,
+    $organisateurId,
+    $data,
+    $_FILES
+);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -44,10 +77,10 @@ $heure = date('H:i', strtotime($event['date_event']));
     <div class="max-w-4xl mx-auto p-8 bg-white shadow rounded mt-8">
         <h2 class="text-2xl font-bold mb-6">Modifier l'événement</h2>
 
-        <form method="POST" action="update_event.php" enctype="multipart/form-data" class="space-y-5">
+        <form method="POST" enctype="multipart/form-data" class="space-y-5">
             <input type="hidden" name="event_id" value="<?= $eventId ?>">
 
-            <!-- Titre -->
+            
             <div>
                 <label class="block font-medium mb-1">Titre</label>
                 <input type="text" name="titre" required
@@ -55,7 +88,7 @@ $heure = date('H:i', strtotime($event['date_event']));
                     class="w-full border p-3 rounded">
             </div>
 
-            <!-- Équipes -->
+           
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                 <div class="border p-4 rounded bg-gray-50">
@@ -78,19 +111,19 @@ $heure = date('H:i', strtotime($event['date_event']));
 
             </div>
 
-            <!-- Date / Heure -->
+            
             <div class="grid grid-cols-2 gap-4">
                 <input type="date" name="date_event" value="<?= $date ?>" required class="border p-3 rounded">
                 <input type="time" name="heure_event" value="<?= $heure ?>" required class="border p-3 rounded">
             </div>
 
-            <!-- Lieu / Durée -->
+            
             <div class="grid grid-cols-2 gap-4">
                 <input type="text" name="lieu" value="<?= htmlspecialchars($event['lieu']) ?>" required class="border p-3 rounded">
                 <input type="number" name="duree" value="<?= $event['duree'] ?>" min="1" max="5" required class="border p-3 rounded">
             </div>
 
-            <!-- Catégories -->
+            
             <div>
                 <label class="block font-medium mb-2">Catégories & prix</label>
                 <div class="space-y-2">
@@ -98,14 +131,15 @@ $heure = date('H:i', strtotime($event['date_event']));
                         <div class="grid grid-cols-2 gap-4">
                             <input type="text" name="categorie[]" value="<?= htmlspecialchars($cat->getNom()) ?>"
                                 class="border p-2 rounded">
-                            <input type="number" name="prix[]" value="<?= $cat->getPrix() ?>"
+                            <input type="number" name="prix[]" value="<?= htmlspecialchars($cat->getPrix()) ?>"
                                 class="border p-2 rounded">
+                                <input type="hidden" name="categorie_id[]" value="<?= $cat->getId() ?>">
                         </div>
                     <?php endforeach; ?>
                 </div>
             </div>
 
-            <!-- Places -->
+            
             <div>
                 <label class="block font-medium mb-1">Capacité (par catégorie)</label>
                 <input type="number"

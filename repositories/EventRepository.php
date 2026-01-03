@@ -74,9 +74,9 @@ class EventRepository
             return false;
         }
     }
-public function getEventById(int $id): ?array
-{
-    $sql = "
+    public function getEventById(int $id): ?array
+    {
+        $sql = "
         SELECT 
             e.*,
             t1.nom AS equipe1_nom, t1.logo AS equipe1_logo,
@@ -87,16 +87,22 @@ public function getEventById(int $id): ?array
         WHERE e.id = ?
     ";
 
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute([$id]);
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$id]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
-}
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
 
 
-    public function updateEvent(int $eventId, int $organisateurId, array $data): bool
-    {
-        $stmt = $this->db->prepare("
+    public function updateEvent(int $eventId,int $organisateurId,array $data,array $files): bool {
+        $this->db->beginTransaction();
+
+        try {
+
+            /* =========================
+           1️⃣ UPDATE EVENT
+        ========================= */
+            $stmt = $this->db->prepare("
             UPDATE events SET 
                 titre = ?, 
                 date_event = ?, 
@@ -105,15 +111,101 @@ public function getEventById(int $id): ?array
             WHERE id = ? AND organisateur_id = ?
         ");
 
-        return $stmt->execute([
-            $data['titre'],
-            $data['date_event'],
-            $data['lieu'],
-            $data['duree'],
-            $eventId,
-            $organisateurId
-        ]);
+            $stmt->execute([
+                $data['titre'],
+                $data['date_event'],
+                $data['lieu'],
+                $data['duree'],
+                $eventId,
+                $organisateurId
+            ]);
+
+            /* =========================
+           2️⃣ Récupérer IDs équipes
+        ========================= */
+            $stmt = $this->db->prepare("
+            SELECT equipe_1_id, equipe_2_id 
+            FROM events 
+            WHERE id = ?
+        ");
+            $stmt->execute([$eventId]);
+            $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            /* =========================
+           3️⃣ UPDATE ÉQUIPES
+        ========================= */
+            $stmtEquipe = $this->db->prepare("
+            UPDATE equipes SET nom = ? WHERE id = ?
+        ");
+
+            // équipe 1
+            $stmtEquipe->execute([
+                $data['equipe1_nom'],
+                $event['equipe_1_id']
+            ]);
+
+            // équipe 2
+            $stmtEquipe->execute([
+                $data['equipe2_nom'],
+                $event['equipe_2_id']
+            ]);
+
+            /* =========================
+           4️⃣ LOGOS (optionnels)
+        ========================= */
+            if (!empty($files['equipe1_logo']['name'])) {
+                $logo1 = uniqid() . '_' . $files['equipe1_logo']['name'];
+                move_uploaded_file(
+                    $files['equipe1_logo']['tmp_name'],
+                    "../uploads/teams/$logo1"
+                );
+
+                $this->db->prepare("UPDATE equipes SET logo = ? WHERE id = ?")
+                    ->execute([$logo1, $event['equipe_1_id']]);
+            }
+
+            if (!empty($files['equipe2_logo']['name'])) {
+                $logo2 = uniqid() . '_' . $files['equipe2_logo']['name'];
+                move_uploaded_file(
+                    $files['equipe2_logo']['tmp_name'],
+                    "../uploads/teams/$logo2"
+                );
+
+                $this->db->prepare("UPDATE equipes SET logo = ? WHERE id = ?")
+                    ->execute([$logo2, $event['equipe_2_id']]);
+            }
+
+            /* =========================
+           5️⃣ UPDATE CATÉGORIES
+        ========================= */
+            $stmtCat = $this->db->prepare("
+            UPDATE categories SET 
+                nom = ?, 
+                prix = ?, 
+                capacite = ?
+            WHERE id = ?
+        ");
+
+            foreach ($data['categories'] as $cat) {
+                $stmtCat->execute([
+                    $cat['nom'],
+                    $cat['prix'],
+                    $data['capacite'], // même capacité pour toutes
+                    $cat['id']
+                ]);
+            }
+
+            /* =========================
+           6️⃣ COMMIT
+        ========================= */
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            return false;
+        }
     }
+
 
 
     public function getStatsByOrganisateur(int $id): array
@@ -185,7 +277,7 @@ public function getEventById(int $id): ?array
             );
         }
 
-        return $categories; 
+        return $categories;
     }
 
     public function getCommentairesByOrganisateur(int $id): array
