@@ -45,17 +45,17 @@ $events = $eventRepo->getByOrganisateur($organisateurId);
         $categories = $eventRepo->getCategoriesByEvent($event->getId());
     ?>
     <tr class="border-t hover:bg-gray-50 align-top">
-        <!-- Titre -->
+        
         <td class="p-3 font-semibold">
             <?= htmlspecialchars($event->getTitre()) ?>
         </td>
 
-        <!-- Date -->
+        
         <td class="p-3">
             <?= htmlspecialchars($event->getDate()->format('d/m/Y H:i')) ?>
         </td>
 
-        <!-- Statut -->
+       
         <td class="p-3">
             <?php if ($event->getStatut() === 'valide'): ?>
                 <span class="px-2 py-1 rounded bg-green-100 text-green-700 text-sm font-semibold">
@@ -90,7 +90,7 @@ $events = $eventRepo->getByOrganisateur($organisateurId);
             <?php endif; ?>
         </td>
 
-        <!-- Actions -->
+      
         <td class="p-3 space-x-2">
             <a href="edit_event.php?id=<?= $event->getId() ?>"
                class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">

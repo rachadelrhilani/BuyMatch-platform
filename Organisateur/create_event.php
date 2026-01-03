@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'equipe2_nom' => trim($_POST['equipe2_nom']),
         'date_event' => trim($_POST['date_event'] . ' ' . $_POST['heure_event']),
         'lieu' => trim($_POST['lieu']),
-        'duree' => (int)$_POST['duree'],
+        'duree' => 90,
         'categories' => []
     ];
 
@@ -66,16 +66,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="POST" class="space-y-5" enctype="multipart/form-data">
 
-            <!-- Titre -->
+            
             <div>
                 <label class="block font-medium mb-1">Titre de l'événement</label>
                 <input type="text" name="titre" required
                        class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
             </div>
 
-            <!-- Équipes -->
+            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Équipe 1 -->
+               
                 <div class="border p-4 rounded-lg bg-gray-50">
                     <h3 class="font-semibold text-lg mb-3">Équipe Domicile</h3>
                     <label class="block mb-2">Nom de l'équipe</label>
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="file" name="equipe1_logo" accept="image/*" class="w-full border p-2 rounded">
                 </div>
 
-                <!-- Équipe 2 -->
+               
                 <div class="border p-4 rounded-lg bg-gray-50">
                     <h3 class="font-semibold text-lg mb-3">Équipe Extérieure</h3>
                     <label class="block mb-2">Nom de l'équipe</label>
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <!-- Date / Heure -->
+            
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block font-medium mb-1">Date</label>
@@ -106,21 +106,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <!-- Lieu + Durée -->
+            
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block font-medium mb-1">Lieu</label>
                     <input type="text" name="lieu" required class="w-full border p-3 rounded">
                 </div>
-                <div>
-                    <label class="block font-medium mb-1">Durée (en heures)</label>
-                    <input type="number" name="duree" max="5" min="1" required class="w-full border p-3 rounded">
-                </div>
+               
             </div>
 
             <!-- Catégories & prix -->
             <div>
-                <label class="block font-medium mb-2">Catégories & prix</label>
+                <label class="block font-medium mb-2">Catégories des places & prix</label>
                 <div class="grid grid-cols-3 gap-4">
                     <input type="text" name="categorie[]" placeholder="Catégorie 1" class="border p-2 rounded">
                     <input type="number" name="prix[]" placeholder="Prix" class="border p-2 rounded">
@@ -133,10 +130,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <!-- Nombre de places -->
+            
             <div>
                 <label class="block font-medium mb-1">Nombre total de places</label>
-                <input type="number" name="places" max="2000" required class="w-full border p-3 rounded">
+                <input type="number" name="places" min="100" max="666" required class="w-full border p-3 rounded">
             </div>
 
             <button class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded font-semibold">

@@ -94,14 +94,13 @@ class EventRepository
     }
 
 
-    public function updateEvent(int $eventId,int $organisateurId,array $data,array $files): bool {
+    public function updateEvent(int $eventId, int $organisateurId, array $data, array $files): bool
+    {
         $this->db->beginTransaction();
 
         try {
 
-            /* =========================
-           1️⃣ UPDATE EVENT
-        ========================= */
+
             $stmt = $this->db->prepare("
             UPDATE events SET 
                 titre = ?, 
@@ -120,9 +119,7 @@ class EventRepository
                 $organisateurId
             ]);
 
-            /* =========================
-           2️⃣ Récupérer IDs équipes
-        ========================= */
+
             $stmt = $this->db->prepare("
             SELECT equipe_1_id, equipe_2_id 
             FROM events 
@@ -131,28 +128,24 @@ class EventRepository
             $stmt->execute([$eventId]);
             $event = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            /* =========================
-           3️⃣ UPDATE ÉQUIPES
-        ========================= */
+
             $stmtEquipe = $this->db->prepare("
             UPDATE equipes SET nom = ? WHERE id = ?
         ");
 
-            // équipe 1
+
             $stmtEquipe->execute([
                 $data['equipe1_nom'],
                 $event['equipe_1_id']
             ]);
 
-            // équipe 2
+
             $stmtEquipe->execute([
                 $data['equipe2_nom'],
                 $event['equipe_2_id']
             ]);
 
-            /* =========================
-           4️⃣ LOGOS (optionnels)
-        ========================= */
+
             if (!empty($files['equipe1_logo']['name'])) {
                 $logo1 = uniqid() . '_' . $files['equipe1_logo']['name'];
                 move_uploaded_file(
@@ -175,9 +168,7 @@ class EventRepository
                     ->execute([$logo2, $event['equipe_2_id']]);
             }
 
-            /* =========================
-           5️⃣ UPDATE CATÉGORIES
-        ========================= */
+
             $stmtCat = $this->db->prepare("
             UPDATE categories SET 
                 nom = ?, 
@@ -195,9 +186,7 @@ class EventRepository
                 ]);
             }
 
-            /* =========================
-           6️⃣ COMMIT
-        ========================= */
+
             $this->db->commit();
             return true;
         } catch (Exception $e) {
@@ -206,6 +195,54 @@ class EventRepository
         }
     }
 
+    public function deleteEvent(int $eventId, int $organisateurId): bool
+    {
+        $this->db->beginTransaction();
+
+        try {
+
+           
+            $stmt = $this->db->prepare("
+            SELECT equipe_1_id, equipe_2_id
+            FROM events
+            WHERE id = ? AND organisateur_id = ?
+        ");
+            $stmt->execute([$eventId, $organisateurId]);
+            $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$event) {
+                throw new Exception("Événement introuvable ou accès refusé");
+            }
+
+            
+            $stmt = $this->db->prepare("
+            DELETE FROM categories WHERE event_id = ?
+        ");
+            $stmt->execute([$eventId]);
+
+            
+            $stmt = $this->db->prepare("
+            DELETE FROM events WHERE id = ?
+        ");
+            $stmt->execute([$eventId]);
+
+           
+            $stmt = $this->db->prepare("
+            DELETE FROM equipes WHERE id IN (?, ?)
+        ");
+            $stmt->execute([
+                $event['equipe_1_id'],
+                $event['equipe_2_id']
+            ]);
+
+          
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            return false;
+        }
+    }
 
 
     public function getStatsByOrganisateur(int $id): array
