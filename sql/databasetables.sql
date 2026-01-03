@@ -42,6 +42,7 @@ CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
     prix DECIMAL(10,2) NOT NULL,
+    capacite INT NOT NULL DEFAULT 0,
     event_id INT NOT NULL,
     FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
 );

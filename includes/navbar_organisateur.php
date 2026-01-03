@@ -3,7 +3,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'organisateur') {
     header('Location: ../login.php');
     exit;
 }
-// Simulation d'un chemin vers l'avatar
 $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION['user']['photo'] : "../uploads/avatars/default.png";
 ?>
 
@@ -11,7 +10,7 @@ $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-20">
 
-            <!-- Logo avec Style -->
+            
             <a href="dashboard.php" class="flex items-center space-x-3 group">
                 <div class="bg-blue-600 p-2 rounded-lg group-hover:bg-blue-700 transition">
                     <i class="fas fa-ticket-alt text-white text-xl"></i>
@@ -19,7 +18,7 @@ $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION
                 <span class="text-2xl font-black tracking-tight text-gray-900 uppercase">Buy<span class="text-blue-600">Match</span></span>
             </a>
 
-            <!-- Menu Desktop avec Effets -->
+            
             <div class="hidden lg:flex items-center space-x-1">
                 <a href="dashboard.php" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition duration-200">
                     <i class="fas fa-chart-line mr-2"></i>Dashboard
@@ -30,12 +29,12 @@ $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION
                 <a href="my_events.php" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition duration-200">
                     <i class="fas fa-calendar-check mr-2"></i>Mes Matchs
                 </a>
-                <a href="statistics.php" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition duration-200">
+                <a href="profile.php" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition duration-200">
                     <i class="fas fa-poll mr-2"></i>Stats
                 </a>
             </div>
 
-            <!-- Profil & Actions -->
+            
             <div class="hidden md:flex items-center space-x-6">
                 <div class="flex items-center space-x-3 border-l pl-6 border-gray-100">
                     <div class="text-right">
@@ -48,7 +47,7 @@ $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION
                 <a href="../public/logout.php"
                    class="flex items-center space-x-2 px-4 py-2 text-sm font-bold text-white bg-gray-900 rounded-xl hover:bg-red-600 transition-all duration-300 shadow-lg shadow-gray-200">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Quitter</span>
+                    <span>Déconnexion</span>
                 </a>
             </div>
 
@@ -64,8 +63,7 @@ $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION
                 <a href="dashboard.php" class="flex items-center px-4 py-3 text-gray-700 bg-gray-50 rounded-xl font-bold"><i class="fas fa-chart-line w-8"></i>Dashboard</a>
                 <a href="create_event.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-plus-circle w-8 text-blue-600"></i>Créer un événement</a>
                 <a href="my_events.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-calendar-check w-8 text-blue-600"></i>Mes événements</a>
-                <a href="statistics.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-poll w-8 text-blue-600"></i>Statistiques</a>
-                <a href="comments.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-comments w-8 text-blue-600"></i>Commentaires</a>
+                <a href="profile.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-poll w-8 text-blue-600"></i>Statistiques</a>
                 <div class="h-px bg-gray-100 my-2"></div>
                 <a href="../public/logout.php" class="flex items-center px-4 py-3 text-red-600 font-bold"><i class="fas fa-sign-out-alt w-8"></i>Déconnexion</a>
             </div>

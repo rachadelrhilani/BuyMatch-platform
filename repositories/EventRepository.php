@@ -74,6 +74,25 @@ class EventRepository
             return false;
         }
     }
+public function getEventById(int $id): ?array
+{
+    $sql = "
+        SELECT 
+            e.*,
+            t1.nom AS equipe1_nom, t1.logo AS equipe1_logo,
+            t2.nom AS equipe2_nom, t2.logo AS equipe2_logo
+        FROM events e
+        JOIN equipes t1 ON e.equipe_1_id = t1.id
+        JOIN equipes t2 ON e.equipe_2_id = t2.id
+        WHERE e.id = ?
+    ";
+
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([$id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
+
 
     public function updateEvent(int $eventId, int $organisateurId, array $data): bool
     {
@@ -147,6 +166,26 @@ class EventRepository
         }
 
         return $events;
+    }
+    public function getCategoriesByEvent(int $eventId): array
+    {
+        $stmt = $this->db->prepare("
+        SELECT * FROM categories WHERE event_id = ?
+    ");
+        $stmt->execute([$eventId]);
+
+        $categories = [];
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $categories[] = new Category(
+                $row['id'],
+                $row['nom'],
+                (float)$row['prix'],
+                $row['capacite']
+            );
+        }
+
+        return $categories; 
     }
 
     public function getCommentairesByOrganisateur(int $id): array

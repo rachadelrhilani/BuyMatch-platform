@@ -3,14 +3,12 @@ $requiredRole = 'organisateur';
 require_once '../includes/auth_check.php';
 require_once '../repositories/EventRepository.php';
 
-// Récupérer l'organisateur connecté
 $organisateurId = $_SESSION['user']['id'];
 $eventRepo = new EventRepository();
 $success = null;
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Construire les données
     $data = [
         'titre' => trim($_POST['titre']),
         'equipe1_nom' => trim($_POST['equipe1_nom']),
@@ -21,24 +19,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'categories' => []
     ];
 
-    // Catégories et prix
     for ($i = 0; $i < 3; $i++) {
         if (!empty($_POST['categorie'][$i]) && !empty($_POST['prix'][$i])) {
             $data['categories'][] = [
                 'nom' => trim($_POST['categorie'][$i]),
                 'prix' => (float)$_POST['prix'][$i],
-                'places' => (int)$_POST['places'] // Même nombre de places pour toutes les catégories
+                'places' => (int)$_POST['places'] 
             ];
         }
     }
 
-    // Fichiers logos
+
     $files = [
         'equipe1_logo' => $_FILES['equipe1_logo'],
         'equipe2_logo' => $_FILES['equipe2_logo']
     ];
 
-    // Créer l'événement
     if ($eventRepo->createEvent($data, $files, $organisateurId)) {
         $success = "L'événement a été créé avec succès et est en attente de validation.";
     } else {
