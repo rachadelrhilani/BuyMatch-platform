@@ -1,19 +1,6 @@
 <?php
 $requiredRole = 'organisateur';
 require_once '../includes/auth_check.php';
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-</head>
-<body>
-    <?php include '../includes/navbar_organisateur.php'; ?>
-    <?php
-$requiredRole = 'organisateur';
-require_once '../includes/auth_check.php';
 
 $user = $_SESSION['user'];
 ?>
@@ -75,10 +62,6 @@ $user = $_SESSION['user'];
         </button>
     </form>
 </div>
-
-</body>
-</html>
-
 
 </body>
 </html>

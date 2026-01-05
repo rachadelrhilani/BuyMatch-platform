@@ -317,32 +317,29 @@ class EventRepository
         return $categories;
     }
 
-    public function getCommentairesByOrganisateur(int $id): array
-    {
-        $sql = "
-        SELECT c.*
+   public function getCommentairesByOrganisateur(int $organisateurId): array
+{
+    $sql = "
+        SELECT 
+            c.id AS comment_id,
+            c.contenu,
+            c.note,
+            c.statut,
+            c.created_at,
+            e.id AS event_id,
+            e.titre AS event_titre
         FROM comments c
-        JOIN events e ON e.id = c.event_id
+        INNER JOIN events e ON e.id = c.event_id
         WHERE e.organisateur_id = ?
         ORDER BY c.created_at DESC
     ";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$id]);
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute([$organisateurId]);
 
-        $comments = [];
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $comments[] = new Comment(
-                $row['id'],
-                $row['contenu'],
-                (int)$row['note'],
-                $row['statut']
-            );
-        }
-
-        return $comments;
-    }
 
     public function findById(int $id): ?Event
     {
