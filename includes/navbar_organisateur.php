@@ -30,7 +30,7 @@ $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION
                     <i class="fas fa-calendar-check mr-2"></i>Mes Matchs
                 </a>
                 <a href="profile.php" class="px-4 py-2 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition duration-200">
-                    <i class="fas fa-poll mr-2"></i>Stats
+                    <i class="fas fa-poll mr-2"></i>Profile
                 </a>
             </div>
 
@@ -63,7 +63,7 @@ $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION
                 <a href="dashboard.php" class="flex items-center px-4 py-3 text-gray-700 bg-gray-50 rounded-xl font-bold"><i class="fas fa-chart-line w-8"></i>Dashboard</a>
                 <a href="create_event.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-plus-circle w-8 text-blue-600"></i>Créer un événement</a>
                 <a href="my_events.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-calendar-check w-8 text-blue-600"></i>Mes événements</a>
-                <a href="profile.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-poll w-8 text-blue-600"></i>Statistiques</a>
+                <a href="profile.php" class="flex items-center px-4 py-3 text-gray-600 font-semibold"><i class="fas fa-poll w-8 text-blue-600"></i>Profile</a>
                 <div class="h-px bg-gray-100 my-2"></div>
                 <a href="../public/logout.php" class="flex items-center px-4 py-3 text-red-600 font-bold"><i class="fas fa-sign-out-alt w-8"></i>Déconnexion</a>
             </div>

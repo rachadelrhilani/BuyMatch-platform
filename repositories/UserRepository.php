@@ -24,12 +24,12 @@ class UserRepository
 
         $photoName = "default.png";
 
-       
+
         if (!empty($file['photo']['name']) && $file['photo']['error'] === 0) {
             $ext = pathinfo($file['photo']['name'], PATHINFO_EXTENSION);
             $photoName = uniqid() . '.' . $ext;
 
-            
+
             $uploadPath = "../uploads/avatars/";
             if (!is_dir($uploadPath)) {
                 mkdir($uploadPath, 0777, true);
@@ -42,10 +42,10 @@ class UserRepository
         $stmt = $this->db->prepare("SELECT id FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         if ($stmt->fetch()) {
-            return null; 
+            return null;
         }
 
-        
+
         $stmt = $this->db->prepare("
             INSERT INTO users (nom, email, telephone, photo, password, role)
             VALUES (:nom, :email, :telephone, :photo, :password, :role)
@@ -113,7 +113,7 @@ class UserRepository
 
         return null;
     }
-    
+
     public static function logout()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -140,5 +140,57 @@ class UserRepository
         } else {
             return new Organisateur($row['id'], $row['nom'], $row['email'], $row['telephone'], $row['photo'], $row['password']);
         }
+    }
+    public function updateProfile(int $userId, array $data, array $file): bool
+    {
+        // récupérer l'utilisateur actuel
+        $stmt = $this->db->prepare("SELECT photo FROM users WHERE id = ?");
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$user) return false;
+
+        $photoName = $user['photo'];
+
+        /* =====================
+       Upload nouvelle photo
+    ===================== */
+        if (!empty($file['photo']['name']) && $file['photo']['error'] === 0) {
+
+            $ext = pathinfo($file['photo']['name'], PATHINFO_EXTENSION);
+            $photoName = uniqid() . '.' . $ext;
+
+            $uploadPath = "../uploads/avatars/";
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+
+            move_uploaded_file($file['photo']['tmp_name'], $uploadPath . $photoName);
+
+            // supprimer ancienne photo (sauf default)
+            if ($user['photo'] && $user['photo'] !== 'default.png') {
+                @unlink($uploadPath . $user['photo']);
+            }
+        }
+
+        /* =====================
+       Update utilisateur
+    ===================== */
+        $stmt = $this->db->prepare("
+        UPDATE users SET
+            nom = :nom,
+            email = :email,
+            telephone = :telephone,
+            photo = :photo
+        WHERE id = :id
+    ");
+
+        return $stmt->execute([
+            'nom' => trim($data['nom']),
+            'email' => trim($data['email']),
+            'telephone' => trim($data['telephone']),
+            'photo' => $photoName,
+            'id' => $userId
+        ]);
     }
 }
