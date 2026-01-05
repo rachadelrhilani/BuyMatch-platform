@@ -51,14 +51,13 @@ $commentaires = $repo->getCommentairesByOrganisateur($_SESSION['user']['id']);
 
            
             <div class="flex justify-between text-sm text-gray-500">
-                <span>⭐ <?= $comment->getNote() ?>/5</span>
+                <span>⭐ <?= htmlspecialchars($comment->getNote()) ?>/5</span>
                 <span><?= date('d/m/Y H:i', strtotime($comment->getCreatedAt())) ?></span>
             </div>
 
         </div>
     <?php endforeach; ?>
 <?php endif; ?>
-
 </div>
 </body>
 </html>

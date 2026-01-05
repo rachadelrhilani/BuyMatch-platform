@@ -35,9 +35,9 @@ include '../includes/header.php';
                     </div>
 
                     <div class="flex items-center gap-6 mb-4">
-                        <img src="<?= $event->getEquipeDomicile()->getLogo() ?>" class="w-20">
+                        <img src="../uploads/teams/<?= $event->getEquipeDomicile()->getLogo() ?>" class="w-20">
                         <span class="text-2xl font-bold">VS</span>
-                        <img src="<?= $event->getEquipeExterieure()->getLogo() ?>" class="w-20">
+                        <img src="../uploads/teams/<?= $event->getEquipeExterieure()->getLogo() ?>" class="w-20">
                     </div>
 
                     <p class="text-gray-700 mb-2">
