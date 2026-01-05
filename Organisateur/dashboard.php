@@ -4,7 +4,7 @@ require_once '../includes/auth_check.php';
 require_once '../repositories/EventRepository.php';
 $repo = new EventRepository();
 $stats = $repo->getStatsByOrganisateur($_SESSION['user']['id']);
-$comments = $repo->getCommentairesByOrganisateur($_SESSION['user']['id']);
+$commentaires = $repo->getCommentairesByOrganisateur($_SESSION['user']['id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,28 +31,28 @@ $comments = $repo->getCommentairesByOrganisateur($_SESSION['user']['id']);
         <p class="text-3xl font-bold text-purple-600">5</p>
     </div>
 </div>
-<?php if (empty($comments)): ?>
+<?php if (empty($commentaires)): ?>
     <div class="bg-white p-6 rounded shadow text-gray-500">
         Aucun commentaire pour le moment.
     </div>
 <?php else: ?>
-    <?php foreach ($comments as $comment): ?>
+    <?php foreach ($commentaires as $comment): ?>
         <div class="bg-white shadow p-5 rounded mb-4 border-l-4 border-blue-600">
 
-            <!-- Événement -->
+           
             <h3 class="font-semibold text-lg text-gray-800 mb-1">
-                <?= htmlspecialchars($comment['event_titre']) ?>
+                <?= htmlspecialchars($comment->getEventTitre()) ?>
             </h3>
 
-            <!-- Contenu -->
+           
             <p class="text-gray-700 mb-2">
-                <?= htmlspecialchars($comment['contenu']) ?>
+                <?= htmlspecialchars($comment->getContenu()) ?>
             </p>
 
-            <!-- Infos -->
+           
             <div class="flex justify-between text-sm text-gray-500">
-                <span>⭐ <?= $comment['note'] ?>/5</span>
-                <span><?= date('d/m/Y H:i', strtotime($comment['created_at'])) ?></span>
+                <span>⭐ <?= $comment->getNote() ?>/5</span>
+                <span><?= date('d/m/Y H:i', strtotime($comment->getCreatedAt())) ?></span>
             </div>
 
         </div>

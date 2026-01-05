@@ -33,6 +33,10 @@ $avatar = !empty($_SESSION['user']['photo'])
 
             <!-- User -->
             <div class="hidden md:flex items-center space-x-4">
+                <div class="text-right">
+                        <p class="text-sm font-bold text-gray-900 leading-tight"><?= htmlspecialchars($_SESSION['user']['nom']) ?></p>
+                        <p class="text-xs text-blue-600 font-medium"><?= htmlspecialchars($_SESSION['user']['role']) ?></p>
+                    </div>
                 <img src="<?= htmlspecialchars($avatar) ?>"
                      class="w-10 h-10 rounded-full object-cover border">
 

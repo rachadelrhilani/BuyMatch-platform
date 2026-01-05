@@ -74,6 +74,7 @@ class EventRepository
             return false;
         }
     }
+
     public function getEventById(int $id): ?array
     {
         $sql = "
@@ -201,7 +202,7 @@ class EventRepository
 
         try {
 
-           
+
             $stmt = $this->db->prepare("
             SELECT equipe_1_id, equipe_2_id
             FROM events
@@ -214,19 +215,19 @@ class EventRepository
                 throw new Exception("Événement introuvable ou accès refusé");
             }
 
-            
+
             $stmt = $this->db->prepare("
             DELETE FROM categories WHERE event_id = ?
         ");
             $stmt->execute([$eventId]);
 
-            
+
             $stmt = $this->db->prepare("
             DELETE FROM events WHERE id = ?
         ");
             $stmt->execute([$eventId]);
 
-           
+
             $stmt = $this->db->prepare("
             DELETE FROM equipes WHERE id IN (?, ?)
         ");
@@ -235,7 +236,7 @@ class EventRepository
                 $event['equipe_2_id']
             ]);
 
-          
+
             $this->db->commit();
             return true;
         } catch (Exception $e) {
@@ -317,9 +318,9 @@ class EventRepository
         return $categories;
     }
 
-   public function getCommentairesByOrganisateur(int $organisateurId): array
-{
-    $sql = "
+    public function getCommentairesByOrganisateur(int $organisateurId): array
+    {
+        $sql = "
         SELECT 
             c.id AS comment_id,
             c.contenu,
@@ -330,15 +331,28 @@ class EventRepository
             e.titre AS event_titre
         FROM comments c
         INNER JOIN events e ON e.id = c.event_id
-        WHERE e.organisateur_id = ?
+        WHERE e.organisateur_id = :org_id
         ORDER BY c.created_at DESC
     ";
 
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute([$organisateurId]);
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['org_id' => $organisateurId]);
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $commentaires = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            // Hydratation : On transforme le tableau en objet Comment
+            $commentaires[] = new Comment(
+                $row['comment_id'],
+                $row['contenu'],
+                $row['note'],
+                $row['statut'],
+                $row['event_titre'],
+                $row['created_at']
+            );
+        }
+
+        return $commentaires; // Retourne un array d'objets Comment
+    }
 
 
     public function findById(int $id): ?Event
@@ -427,5 +441,33 @@ class EventRepository
         }
 
         return $events;
+    }
+    public function getAvailableEvents(): array
+    {
+        $stmt = $this->db->prepare("
+        SELECT e.*, 
+               t1.nom AS equipe1_nom, t1.logo AS equipe1_logo,
+               t2.nom AS equipe2_nom, t2.logo AS equipe2_logo
+        FROM events e
+        JOIN equipes t1 ON e.equipe_1_id = t1.id
+        JOIN equipes t2 ON e.equipe_2_id = t2.id
+        WHERE e.statut = 'valide'
+          AND e.date_event >= NOW()
+        ORDER BY e.date_event ASC
+    ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getFinishedEvents(): array
+    {
+        $stmt = $this->db->prepare("
+        SELECT e.*
+        FROM events e
+        WHERE DATE_ADD(e.date_event, INTERVAL e.duree HOUR) < NOW()
+        AND e.statut = 'valide'
+        ORDER BY e.date_event DESC
+    ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
