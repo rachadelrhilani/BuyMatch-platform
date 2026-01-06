@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $success = $repo->updateProfile($userId, $_POST, $_FILES);
 
     if ($success) {
-        // mettre à jour la session
         $_SESSION['user']['nom'] = $_POST['nom'];
         $_SESSION['user']['email'] = $_POST['email'];
         $_SESSION['user']['telephone'] = $_POST['telephone'];

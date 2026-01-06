@@ -28,13 +28,14 @@ try {
         $quantite
     );
 
-    // ✅ Optionnel : stocker l'order en session
+
     $_SESSION['last_order_id'] = $order->getId();
 
-    // Redirection
     header("Location: my_tickets.php?order=" . $order->getId());
     exit;
 
 } catch (Exception $e) {
-    die("❌ Erreur lors de l'achat : " . $e->getMessage());
+    $_SESSION['error'] = $e->getMessage();
+    header("Location: buy_ticket.php?event=" . $eventId);
+    exit;
 }

@@ -26,6 +26,21 @@ class OrderRepository
         $stmt->execute([$acheteurId, $eventId]);
         return (int)$stmt->fetchColumn();
     }
+
+
+     public function isPlaceAvailable(int $categoryId, string $place): bool
+{
+    $stmt = $this->db->prepare("
+        SELECT COUNT(*)
+        FROM tickets
+        WHERE category_id = ?
+          AND place = ?
+    ");
+    $stmt->execute([$categoryId, $place]);
+    return $stmt->fetchColumn() == 0;
+}
+
+
     public function createOrder(
     int $acheteurId,
     int $categoryId,
@@ -71,6 +86,10 @@ class OrderRepository
         for ($i = 1; $i <= $quantite; $i++) {
             $numero = strtoupper(uniqid('TKT-'));
             $seat = $place . '-' . $i;
+             
+             if (!$this->isPlaceAvailable($categoryId, $seat)) {
+        throw new Exception("❌ La place $seat est déjà réservée.");
+    }
 
             $stmtTicket->execute([
                 $numero,
@@ -98,6 +117,26 @@ class OrderRepository
         $this->db->rollBack();
         throw $e;
     }
+}
+public function getTicketById(int $ticketId, int $userId): array
+{
+    $stmt = $this->db->prepare("
+        SELECT 
+            t.numero,
+            t.place,
+            c.nom AS categorie,
+            e.titre,
+            e.date_event,
+            e.lieu
+        FROM tickets t
+        JOIN orders o ON o.id = t.order_id
+        JOIN categories c ON c.id = t.category_id
+        JOIN events e ON e.id = c.event_id
+        WHERE t.id = ?
+          AND o.acheteur_id = ?
+    ");
+    $stmt->execute([$ticketId, $userId]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 }
