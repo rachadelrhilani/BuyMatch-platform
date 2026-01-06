@@ -3,18 +3,26 @@
 class Order
 {
     private int $id;
-    private DateTime $dateCommande;
+    private int $acheteurId;
     private float $total;
     private array $tickets = [];
 
-    public function __construct(int $id, DateTime $dateCommande)
+    public function __construct(int $id, int $acheteurId, float $total)
     {
         $this->id = $id;
-        $this->dateCommande = $dateCommande;
+        $this->acheteurId = $acheteurId;
+        $this->total = $total;
     }
+    public function getId() { return $this->id; }
+    public function getTotal() { return $this->total; }
 
-    public function ajouterTicket(Ticket $ticket)
+    public function addTicket(Ticket $ticket): void
     {
         $this->tickets[] = $ticket;
+    }
+
+    public function getTickets(): array
+    {
+        return $this->tickets;
     }
 }

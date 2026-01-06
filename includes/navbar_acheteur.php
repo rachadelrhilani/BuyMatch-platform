@@ -26,7 +26,7 @@ $avatar = !empty($_SESSION['user']['photo'])
             <!-- Menu Desktop -->
             <div class="hidden lg:flex space-x-2">
                 <a href="dashboard.php" class="nav-client-link">Accueil</a>
-                <a href="events.php" class="nav-client-link">Événements</a>
+                <a href="Profile.php" class="nav-client-link">Profile</a>
                 <a href="my_tickets.php" class="nav-client-link">Mes billets</a>
                 <a href="my_comments.php" class="nav-client-link">Mes avis</a>
             </div>
@@ -56,7 +56,7 @@ $avatar = !empty($_SESSION['user']['photo'])
         <div id="mobileMenu" class="hidden lg:hidden pb-6">
             <div class="flex flex-col space-y-2 mt-4 border-t pt-4">
                 <a href="dashboard.php" class="mobile-client-link">Accueil</a>
-                <a href="events.php" class="mobile-client-link">Événements</a>
+                <a href="Profile.php" class="mobile-client-link">Profile</a>
                 <a href="my_tickets.php" class="mobile-client-link">Mes billets</a>
                 <a href="my_comments.php" class="mobile-client-link">Mes avis</a>
                 <a href="../public/logout.php" class="mobile-client-link text-red-600">Déconnexion</a>

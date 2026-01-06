@@ -12,7 +12,7 @@ class UserRepository
     {
         $this->db = Database::getInstance()->getConnection();
     }
-
+   /* inscription d'utilisateur */
     public function register(array $data, array $file): ?User
     {
         $nom = trim($data['firstname'] . ' ' . $data['lastname']);

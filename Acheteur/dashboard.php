@@ -69,7 +69,7 @@ $userId = $_SESSION['user']['id'];
                 </form>
             <?php else: ?>
                 <p class="text-green-600 font-semibold mt-2">
-                    ✔ Vous avez déjà commenté ce match
+                    ✔ Vous avez déjà donner votre Avis sur ce match
                 </p>
             <?php endif; ?>
         </div>
