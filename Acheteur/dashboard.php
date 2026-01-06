@@ -17,6 +17,7 @@ $userId = $_SESSION['user']['id'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard-Acheteur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <?php require_once '../includes/navbar_Acheteur.php'; ?> 

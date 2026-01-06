@@ -17,7 +17,7 @@ $events = $eventrep->filter($search,$lieu);
 </head>
 <body>
 
-
+<?php echo password_hash("admin", PASSWORD_BCRYPT);?>
 
 <section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
     <div class="container mx-auto px-4">

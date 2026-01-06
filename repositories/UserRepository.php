@@ -3,6 +3,7 @@ require_once '../classes/Database.php';
 require_once '../classes/User.php';
 require_once '../classes/Acheteur.php';
 require_once '../classes/Organisateur.php';
+require_once '../classes/Admin.php';
 
 class UserRepository
 {

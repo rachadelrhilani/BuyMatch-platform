@@ -88,3 +88,4 @@ $avatar = !empty($_SESSION['user']['photo'])
 document.getElementById('mobileMenuBtn').onclick = () =>
     document.getElementById('mobileMenu').classList.toggle('hidden');
 </script>
+<script src="https://cdn.tailwindcss.com"></script>

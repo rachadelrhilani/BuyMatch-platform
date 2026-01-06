@@ -18,7 +18,7 @@ abstract class User
         $this->photo= $photo;
         $this->password = $password;
     }
-// GETTERS
+
     public function getId(): int
     {
         return $this->id;
@@ -43,8 +43,4 @@ abstract class User
     {
         return $this->photo;
     }
-    public function login() {}
-    public function logout() {}
-    public function register(array $data, array $file){}
-    public function updateProfile(array $data) {}
 }

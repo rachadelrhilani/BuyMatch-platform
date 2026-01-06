@@ -51,7 +51,7 @@ class OrderRepository
     $this->db->beginTransaction();
 
     try {
-        // 1️⃣ Catégorie
+        // Categorie
         $stmt = $this->db->prepare("
             SELECT prix
             FROM categories
@@ -66,7 +66,7 @@ class OrderRepository
 
         $total = $category['prix'] * $quantite;
 
-        // 2️⃣ Création order
+        // Creation order
         $stmt = $this->db->prepare("
             INSERT INTO orders (acheteur_id, total)
             VALUES (?, ?)
@@ -77,7 +77,7 @@ class OrderRepository
         // OBJET Order
         $order = new Order($orderId, $acheteurId, $total);
 
-        // 3️⃣ Tickets
+        // Tickets
         $stmtTicket = $this->db->prepare("
             INSERT INTO tickets (numero, place, order_id, category_id)
             VALUES (?, ?, ?, ?)
