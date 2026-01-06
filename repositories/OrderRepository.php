@@ -138,5 +138,27 @@ public function getTicketById(int $ticketId, int $userId): array
     $stmt->execute([$ticketId, $userId]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+public function getTicketsByAcheteur(int $userId): array
+{
+    $stmt = $this->db->prepare("
+        SELECT 
+            t.id,
+            t.numero,
+            t.place,
+            c.nom AS categorie,
+            e.titre,
+            e.date_event,
+            e.lieu
+        FROM tickets t
+        JOIN orders o ON o.id = t.order_id
+        JOIN categories c ON c.id = t.category_id
+        JOIN events e ON e.id = c.event_id
+        WHERE o.acheteur_id = ?
+        ORDER BY o.date_commande DESC
+    ");
+
+    $stmt->execute([$userId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 }

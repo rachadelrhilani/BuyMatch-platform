@@ -1,10 +1,6 @@
 <?php
 $requiredRole = 'acheteur';
 require_once '../includes/auth_check.php';
-?>
-<?php
-$requiredRole = 'acheteur';
-require_once '../includes/auth_check.php';
 require_once '../repositories/EventRepository.php';
 
 $eventId = (int)($_GET['event'] ?? 0);
