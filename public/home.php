@@ -17,17 +17,35 @@ $events = $eventrep->filter($search,$lieu);
 </head>
 <body>
 
-<section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
-    <div class="container mx-auto px-4">
+<section class="relative h-[80vh] flex items-center overflow-hidden bg-gray-500 text-white">
+    <!-- Arrière-plan terrain avec Overlay dynamique -->
+    <div class="absolute inset-0 z-0">
+        <!-- Remplacez par votre propre image de terrain -->
+        <img src="https://plus.unsplash.com/premium_photo-1684713510655-e6e31536168d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8dGVycmFpbiUyMGRlJTIwZm9vdGJhbGx8ZW58MHx8MHx8fDA%3D" 
+             alt="Terrain de football moderne" 
+             class="w-full h-full object-cover opacity-60">
+        <!-- Dégradé pour le design moderne et la lisibilité -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-transparent"></div>
+    </div>
+
+    <!-- Contenu Principal -->
+    <div class="container mx-auto px-6 relative z-10">
         <div class="max-w-3xl">
-            <h1 class="text-5xl font-bold mb-6">Réservez vos billets pour les meilleurs matchs sportifs</h1>
-            <p class="text-xl mb-8">Découvrez et achetez vos billets pour les matchs de football.</p>
-            <a href="#events" class="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition">
-                Explorer les matchs <i class="fas fa-arrow-right ml-2"></i>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                Réservez vos billets pour les <span class="text-blue-400">meilleurs matchs</span>
+            </h1>
+            <p class="text-xl mb-10 text-gray-200 max-w-lg border-l-4 border-blue-500 pl-4">
+                Vivez l'adrénaline du stade. Découvrez et achetez vos billets pour les rencontres de football.
+            </p>
+            
+            <a href="#events" class="inline-flex items-center px-8 py-4 bg-white text-blue-600 rounded-lg font-bold shadow-lg shadow-blue-500/30 hover:bg-gray-100 transition duration-300 transform hover:scale-105">
+                Explorer les matchs 
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
             </a>
         </div>
     </div>
 </section>
+
 
 <!-- Search & Filter Section -->
 <section id="events" class="py-8 bg-white shadow-sm">

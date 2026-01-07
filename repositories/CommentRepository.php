@@ -134,4 +134,68 @@ class CommentRepository
             $row['created_at']
         );
     }
+    public function getReportedComments(): array
+    {
+        $stmt = $this->db->query("
+            SELECT 
+                c.id,
+                c.contenu,
+                c.note,
+                c.statut,
+                u.nom AS user_nom,
+                e.titre AS event_titre,
+                c.created_at
+            FROM comments c
+            JOIN users u ON u.id = c.user_id
+            JOIN events e ON e.id = c.event_id
+            WHERE c.statut = 'visible'
+            ORDER BY c.created_at DESC
+        ");
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateCommentStatus(int $commentId, string $status): void
+    {
+        $stmt = $this->db->prepare("
+            UPDATE comments
+            SET statut = ?
+            WHERE id = ?
+        ");
+        $stmt->execute([$status, $commentId]);
+    }
+     public function getCommentairesByOrganisateur(int $organisateurId): array
+    {
+        $sql = "
+        SELECT 
+            c.id AS comment_id,
+            c.contenu,
+            c.note,
+            c.statut,
+            c.created_at,
+            e.id AS event_id,
+            e.titre AS event_titre
+        FROM comments c
+        INNER JOIN events e ON e.id = c.event_id
+        WHERE e.organisateur_id = :org_id
+        ORDER BY c.created_at DESC
+    ";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['org_id' => $organisateurId]);
+
+        $commentaires = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $commentaires[] = new Comment(
+                $row['comment_id'],
+                $row['contenu'],
+                $row['note'],
+                $row['statut'],
+                $row['event_titre'],
+                $row['created_at']
+            );
+        }
+
+        return $commentaires; // Retourne un array d'objets Comment
+    }
 }

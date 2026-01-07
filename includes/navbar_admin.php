@@ -9,7 +9,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-20">
 
-            <!-- Logo -->
+            
             <a href="dashboard.php" class="flex items-center space-x-3">
                 <div class="bg-blue-600 p-2 rounded-lg">
                     <i class="fas fa-shield-alt text-white text-xl"></i>
@@ -19,7 +19,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                 </span>
             </a>
 
-            <!-- Menu Desktop -->
+            
             <div class="hidden lg:flex items-center space-x-2">
                 <a href="dashboard.php" class="nav-admin-link">
                     <i class="fas fa-chart-bar mr-2"></i>Dashboard
@@ -33,7 +33,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                
             </div>
 
-            <!-- Admin info -->
+            
             <div class="hidden md:flex items-center space-x-4">
 
                 <a href="../public/logout.php"

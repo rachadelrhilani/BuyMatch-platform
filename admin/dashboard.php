@@ -1,11 +1,13 @@
 <?php
 $requiredRole = 'admin';
 require_once '../includes/auth_check.php';
+require_once '../repositories/CommentRepository.php';
 require_once '../repositories/AdminRepository.php';
 
-$repo = new AdminRepository();
-$stats = $repo->getGlobalStats();
-$comments = $repo->getReportedComments();
+$repoadmin = new AdminRepository();
+$repocomments = new CommentRepository();
+$stats = $repoadmin->getGlobalStats();
+$comments = $repocomments->getReportedComments();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

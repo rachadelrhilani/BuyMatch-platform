@@ -2,9 +2,11 @@
 $requiredRole = 'organisateur';
 require_once '../includes/auth_check.php';
 require_once '../repositories/EventRepository.php';
-$repo = new EventRepository();
-$stats = $repo->getStatsByOrganisateur($_SESSION['user']['id']);
-$commentaires = $repo->getCommentairesByOrganisateur($_SESSION['user']['id']);
+require_once '../repositories/CommentRepository.php';
+$repoevent = new EventRepository();
+$repocomment = new CommentRepository;
+$stats = $repoevent->getStatsByOrganisateur($_SESSION['user']['id']);
+$commentaires = $repocomment->getCommentairesByOrganisateur($_SESSION['user']['id']);
 ?>
 <!DOCTYPE html>
 <html lang="en">

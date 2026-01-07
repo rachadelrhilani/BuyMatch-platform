@@ -24,36 +24,7 @@ class AdminRepository
         ];
     }
 
-    public function getReportedComments(): array
-    {
-        $stmt = $this->db->query("
-            SELECT 
-                c.id,
-                c.contenu,
-                c.note,
-                c.statut,
-                u.nom AS user_nom,
-                e.titre AS event_titre,
-                c.created_at
-            FROM comments c
-            JOIN users u ON u.id = c.user_id
-            JOIN events e ON e.id = c.event_id
-            WHERE c.statut = 'visible'
-            ORDER BY c.created_at DESC
-        ");
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function updateCommentStatus(int $commentId, string $status): void
-    {
-        $stmt = $this->db->prepare("
-            UPDATE comments
-            SET statut = ?
-            WHERE id = ?
-        ");
-        $stmt->execute([$status, $commentId]);
-    }
+    
     public function getAllUsers(): array
     {
         $stmt = $this->db->query("

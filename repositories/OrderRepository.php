@@ -88,7 +88,7 @@ class OrderRepository
             $seat = $place . '-' . $i;
              
              if (!$this->isPlaceAvailable($categoryId, $seat)) {
-        throw new Exception("❌ La place $seat est déjà réservée.");
+        throw new Exception("La place $seat est déjà réservée.");
     }
 
             $stmtTicket->execute([

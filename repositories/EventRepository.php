@@ -318,42 +318,6 @@ class EventRepository
         return $categories;
     }
 
-    public function getCommentairesByOrganisateur(int $organisateurId): array
-    {
-        $sql = "
-        SELECT 
-            c.id AS comment_id,
-            c.contenu,
-            c.note,
-            c.statut,
-            c.created_at,
-            e.id AS event_id,
-            e.titre AS event_titre
-        FROM comments c
-        INNER JOIN events e ON e.id = c.event_id
-        WHERE e.organisateur_id = :org_id
-        ORDER BY c.created_at DESC
-    ";
-
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(['org_id' => $organisateurId]);
-
-        $commentaires = [];
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            // Hydratation : On transforme le tableau en objet Comment
-            $commentaires[] = new Comment(
-                $row['comment_id'],
-                $row['contenu'],
-                $row['note'],
-                $row['statut'],
-                $row['event_titre'],
-                $row['created_at']
-            );
-        }
-
-        return $commentaires; // Retourne un array d'objets Comment
-    }
-
 
     public function findById(int $id): ?Event
     {
@@ -491,7 +455,7 @@ class EventRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // ✅ Valider / ❌ Refuser
+   
     public function updateStatut(int $eventId, string $statut): void
     {
         if (!in_array($statut, ['valide', 'refuse'])) {
