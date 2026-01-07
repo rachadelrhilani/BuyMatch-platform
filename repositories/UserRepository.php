@@ -153,9 +153,7 @@ class UserRepository
 
         $photoName = $user['photo'];
 
-        /* =====================
-       Upload nouvelle photo
-    ===================== */
+        /*Upload nouvelle photo*/
         if (!empty($file['photo']['name']) && $file['photo']['error'] === 0) {
 
             $ext = pathinfo($file['photo']['name'], PATHINFO_EXTENSION);
@@ -174,9 +172,7 @@ class UserRepository
             }
         }
 
-        /* =====================
-       Update utilisateur
-    ===================== */
+        /*Update utilisateur*/
         $stmt = $this->db->prepare("
         UPDATE users SET
             nom = :nom,
