@@ -30,19 +30,11 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                 <a href="events_validation.php" class="nav-admin-link">
                     <i class="fas fa-check-circle mr-2"></i>Événements
                 </a>
-                <a href="statistics.php" class="nav-admin-link">
-                    <i class="fas fa-chart-line mr-2"></i>Statistiques
-                </a>
-                <a href="comments.php" class="nav-admin-link">
-                    <i class="fas fa-comments mr-2"></i>Commentaires
-                </a>
+               
             </div>
 
             <!-- Admin info -->
             <div class="hidden md:flex items-center space-x-4">
-                <span class="font-semibold text-sm">
-                    <?= htmlspecialchars($_SESSION['user']['nom']) ?>
-                </span>
 
                 <a href="../public/logout.php"
                    class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl font-bold transition">
@@ -51,7 +43,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             </div>
 
             <!-- Mobile -->
-            <button id="mobileMenuBtn" class="lg:hidden">
+            <button id="mobileMenuBtn" class="md:hidden text-gray-700 focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>

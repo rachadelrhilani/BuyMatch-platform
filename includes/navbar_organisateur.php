@@ -52,7 +52,7 @@ $avatar = !empty($_SESSION['user']['photo']) ? "../uploads/avatars/" . $_SESSION
             </div>
 
             <!-- Mobile Button -->
-            <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition">
+            <<button id="mobileMenuBtn" class="md:hidden text-gray-700 focus:outline-none">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
         </div>
