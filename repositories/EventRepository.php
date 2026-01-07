@@ -470,4 +470,39 @@ class EventRepository
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /* Pour l'admin */
+    // Matchs en attente
+    public function getEventsEnAttente(): array
+    {
+        $stmt = $this->db->query("
+            SELECT 
+                e.id,
+                e.titre,
+                e.date_event,
+                e.lieu,
+                u.nom AS organisateur
+            FROM events e
+            JOIN users u ON u.id = e.organisateur_id
+            WHERE e.statut = 'en_attente'
+            ORDER BY e.date_event ASC
+        ");
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // ✅ Valider / ❌ Refuser
+    public function updateStatut(int $eventId, string $statut): void
+    {
+        if (!in_array($statut, ['valide', 'refuse'])) {
+            throw new Exception("Statut invalide");
+        }
+
+        $stmt = $this->db->prepare("
+            UPDATE events
+            SET statut = ?
+            WHERE id = ?
+        ");
+        $stmt->execute([$statut, $eventId]);
+    }
 }

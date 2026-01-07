@@ -27,7 +27,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                 <a href="users.php" class="nav-admin-link">
                     <i class="fas fa-users mr-2"></i>Utilisateurs
                 </a>
-                <a href="events_validation.php" class="nav-admin-link">
+                <a href="events.php" class="nav-admin-link">
                     <i class="fas fa-check-circle mr-2"></i>Événements
                 </a>
                
