@@ -82,9 +82,9 @@ $comments = $repo->getReportedComments();
                     </div>
 
                     <div class="mt-5">
-                        <a href="toggle_comment.php?id=<?= $c['id'] ?>&status=visible"
-                           class="inline-block bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-lg text-sm">
-                            ✔ Afficher le commentaire
+                        <a href="toggle_comment.php?id=<?= $c['id'] ?>&status=masque"
+                           class="inline-block bg-red-600 hover:bg-red-700 transition text-white px-4 py-2 rounded-lg text-sm">
+                            Masquer le commentaire
                         </a>
                     </div>
 

@@ -38,7 +38,7 @@ class AdminRepository
             FROM comments c
             JOIN users u ON u.id = c.user_id
             JOIN events e ON e.id = c.event_id
-            WHERE c.statut = 'masque'
+            WHERE c.statut = 'visible'
             ORDER BY c.created_at DESC
         ");
 
@@ -53,5 +53,24 @@ class AdminRepository
             WHERE id = ?
         ");
         $stmt->execute([$status, $commentId]);
+    }
+    public function getAllUsers(): array
+    {
+        $stmt = $this->db->query("
+            SELECT id, nom, email, role, actif, created_at
+            FROM users
+            ORDER BY created_at DESC
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function toggleUserStatus(int $userId): void
+    {
+        $stmt = $this->db->prepare("
+            UPDATE users
+            SET actif = NOT actif
+            WHERE id = ?
+        ");
+        $stmt->execute([$userId]);
     }
 }

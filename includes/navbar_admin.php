@@ -54,8 +54,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
                 <a href="dashboard.php" class="mobile-admin-link">Dashboard</a>
                 <a href="users.php" class="mobile-admin-link">Utilisateurs</a>
                 <a href="events_validation.php" class="mobile-admin-link">Événements</a>
-                <a href="statistics.php" class="mobile-admin-link">Statistiques</a>
-                <a href="comments.php" class="mobile-admin-link">Commentaires</a>
                 <a href="../public/logout.php" class="mobile-admin-link text-red-400">Déconnexion</a>
             </div>
         </div>
