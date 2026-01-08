@@ -11,7 +11,7 @@ class PdfGenerator
         $pdf->AddPage();
 
         $pdf->SetFont('Arial', 'B', 16);
-        $pdf->Cell(0, 10, '🎟 Ticket de Match', 0, 1, 'C');
+        $pdf->Cell(0, 10, 'Ticket de Match', 0, 1, 'C');
 
         $pdf->Ln(10);
         $pdf->SetFont('Arial', '', 12);

@@ -351,7 +351,7 @@ class EventRepository
         );
     }
 
-    public function filter(?string $search = null, ?string $lieu = null): array
+    public function filter(?string $search = null): array
     {
         $sql = "
             SELECT 
@@ -366,7 +366,7 @@ class EventRepository
             FROM events e
             JOIN equipes t1 ON e.equipe_1_id = t1.id
             JOIN equipes t2 ON e.equipe_2_id = t2.id
-            WHERE e.statut = 'valide'
+            WHERE e.statut = 'valide' AND e.date_event > NOW()
         ";
 
         $params = [];
@@ -376,10 +376,7 @@ class EventRepository
             $params['search'] = "%$search%";
         }
 
-        if (!empty($lieu)) {
-            $sql .= " AND e.lieu = :lieu";
-            $params['lieu'] = $lieu;
-        }
+      
 
         $sql .= " ORDER BY e.date_event ASC";
 
@@ -427,7 +424,7 @@ class EventRepository
         $stmt = $this->db->prepare("
         SELECT e.*
         FROM events e
-        WHERE DATE_ADD(e.date_event, INTERVAL e.duree HOUR) < NOW()
+        WHERE e.date_event < NOW()
         AND e.statut = 'valide'
         ORDER BY e.date_event DESC
     ");

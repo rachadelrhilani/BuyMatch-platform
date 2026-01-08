@@ -6,7 +6,7 @@ $search = $_GET['search'] ?? null;
 $lieu   = $_GET['lieu'] ?? null;
 
 $eventrep = new EventRepository();
-$events = $eventrep->filter($search,$lieu);
+$events = $eventrep->filter($search);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,17 +18,14 @@ $events = $eventrep->filter($search,$lieu);
 <body>
 
 <section class="relative h-[80vh] flex items-center overflow-hidden bg-gray-500 text-white">
-    <!-- Arrière-plan terrain avec Overlay dynamique -->
     <div class="absolute inset-0 z-0">
-        <!-- Remplacez par votre propre image de terrain -->
         <img src="https://plus.unsplash.com/premium_photo-1684713510655-e6e31536168d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8dGVycmFpbiUyMGRlJTIwZm9vdGJhbGx8ZW58MHx8MHx8fDA%3D" 
              alt="Terrain de football moderne" 
              class="w-full h-full object-cover opacity-60">
-        <!-- Dégradé pour le design moderne et la lisibilité -->
         <div class="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-transparent"></div>
     </div>
 
-    <!-- Contenu Principal -->
+    
     <div class="container mx-auto px-6 relative z-10">
         <div class="max-w-3xl">
             <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
@@ -47,42 +44,113 @@ $events = $eventrep->filter($search,$lieu);
 </section>
 
 
-<!-- Search & Filter Section -->
-<section id="events" class="py-8 bg-white shadow-sm">
+
+<section class="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
     <div class="container mx-auto px-4">
-        <form method="GET" class="flex flex-col md:flex-row gap-4 items-center bg-white p-4 rounded-lg border border-gray-100 shadow-sm">
-            <div class="flex-1 w-full">
-                <input 
-                    type="text" 
-                    name="search" 
-                    placeholder="Rechercher un match (équipe, titre...)"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    value="<?= htmlspecialchars($search ?? '') ?>"
-                >
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">À propos de buymatch</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
             </div>
 
-            <div class="w-full md:w-64">
-                <select name="lieu" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    <option value="">Toutes les villes</option>
-                    <option value="casablanca" <?= ($lieu === 'casablanca') ? 'selected' : '' ?>>Casablanca</option>
-                    <option value="rabat" <?= ($lieu === 'rabat') ? 'selected' : '' ?>>Rabat</option>
-                    <option value="marrakech" <?= ($lieu === 'marrakech') ? 'selected' : '' ?>>Marrakech</option>
-                </select>
+            <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Votre passion, notre mission</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">
+                        Buymatch est la plateforme de référence pour réserver vos billets de matchs de football. 
+                        Nous connectons les passionnés de sport aux plus grands événements sportifs du moment.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed">
+                        Depuis notre création, nous avons pour objectif de rendre l'accès aux stades simple, rapide et sécurisé. 
+                        Que vous soyez un supporter assidu ou un amateur occasionnel, nous vous offrons une expérience de réservation fluide.
+                    </p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-8">
+                    <img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&auto=format&fit=crop&q=60" 
+                         alt="Équipe sportive" 
+                         class="rounded-lg w-full h-64 object-cover">
+                </div>
             </div>
 
-            <button type="submit" class="w-full md:w-auto px-8 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition shadow-md">
-                <i class="fas fa-search mr-2"></i> Filtrer
-            </button>
-        </form>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-xl transition">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-2">Réservation sécurisée</h4>
+                    <p class="text-gray-600">Paiement 100% sécurisé et billets électroniques instantanés</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-xl transition">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-2">Service rapide</h4>
+                    <p class="text-gray-600">Réservez en quelques clics et recevez vos billets immédiatement</p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-xl transition">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-2">Support 24/7</h4>
+                    <p class="text-gray-600">Une équipe dédiée pour répondre à toutes vos questions</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 
-<!-- Events Section -->
+<section id="events" class="py-12 bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">Trouvez votre match</h2>
+                <p class="text-gray-600">Recherchez parmi tous les événements disponibles</p>
+            </div>
+            
+            <form method="GET" class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 backdrop-blur-sm">
+                <div class="flex flex-col md:flex-row gap-4 items-center">
+                    <div class="flex-1 w-full relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            name="search" 
+                            placeholder="Rechercher un match (équipe, compétition, stade...)"
+                            class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition outline-none"
+                            value="<?= htmlspecialchars($search ?? '') ?>"
+                        >
+                    </div>
+
+                    <button type="submit" class="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-blue-800 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Rechercher
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
 <section class="py-16">
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold mb-8">Matchs à venir</h2>
-
+         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php foreach ($events as $event): ?>
                 <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition">
@@ -116,7 +184,7 @@ $events = $eventrep->filter($search,$lieu);
 </section>
 
 
-<!-- CTA Section -->
+
 <section class="bg-blue-600 text-white py-16">
     <div class="container mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold mb-4">Prêt à vivre l'expérience ?</h2>
