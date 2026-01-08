@@ -56,6 +56,7 @@ $repo->updateEvent(
     $data,
     $_FILES
 );
+header('Location: my_events.php?success');
 }
 
 
@@ -120,7 +121,7 @@ $repo->updateEvent(
             
             <div class="grid grid-cols-2 gap-4">
                 <input type="text" name="lieu" value="<?= htmlspecialchars($event['lieu']) ?>" required class="border p-3 rounded">
-                <input type="number" name="duree" value="<?= $event['duree'] ?>" min="1" max="5" required class="border p-3 rounded">
+                <input type="number" name="duree" value="<?= $event['duree'] ?>" max="90" required class="border p-3 rounded">
             </div>
 
             
@@ -146,7 +147,7 @@ $repo->updateEvent(
                     name="capacite"
                     value="<?= $capacite ?>"
                     min="1"
-                    max="2000"
+                    max="666"
                     required
                     class="w-full border p-3 rounded">
                 <p class="text-sm text-gray-500 mt-1">

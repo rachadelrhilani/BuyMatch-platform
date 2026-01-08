@@ -14,7 +14,7 @@
             Désolé, la page que vous cherchez n'existe pas.
         </p>
 
-        <a href="public/home.php"
+        <a href="/buymatch/public/home.php"
            class="inline-block mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
             Retour à l’accueil
         </a>

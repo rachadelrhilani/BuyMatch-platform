@@ -376,7 +376,7 @@ class EventRepository
             $params['search'] = "%$search%";
         }
 
-      
+
 
         $sql .= " ORDER BY e.date_event ASC";
 
@@ -406,15 +406,15 @@ class EventRepository
     public function getAvailableEvents(): array
     {
         $stmt = $this->db->prepare("
-        SELECT e.*, 
+        SELECT e.*,
                t1.nom AS equipe1_nom, t1.logo AS equipe1_logo,
                t2.nom AS equipe2_nom, t2.logo AS equipe2_logo
         FROM events e
         JOIN equipes t1 ON e.equipe_1_id = t1.id
         JOIN equipes t2 ON e.equipe_2_id = t2.id
-        WHERE e.statut = 'valide'
-          AND e.date_event >= NOW()
-        ORDER BY e.date_event ASC
+        WHERE e.date_event >= NOW()
+          AND e.statut = 'valide'
+        ORDER BY e.date_event DESC
     ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -422,15 +422,20 @@ class EventRepository
     public function getFinishedEvents(): array
     {
         $stmt = $this->db->prepare("
-        SELECT e.*
+        SELECT e.*,
+               t1.nom AS equipe1_nom, t1.logo AS equipe1_logo,
+               t2.nom AS equipe2_nom, t2.logo AS equipe2_logo
         FROM events e
+        JOIN equipes t1 ON e.equipe_1_id = t1.id
+        JOIN equipes t2 ON e.equipe_2_id = t2.id
         WHERE e.date_event < NOW()
-        AND e.statut = 'valide'
+          AND e.statut = 'valide'
         ORDER BY e.date_event DESC
     ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     /* Pour l'admin */
     // Matchs en attente
@@ -452,7 +457,19 @@ class EventRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-   
+    public function countActiveEvents(): int
+    {
+        $stmt = $this->db->query("
+        SELECT COUNT(*) 
+        FROM events 
+        WHERE statut = 'valide'
+          AND date_event > NOW()
+    ");
+
+        return (int) $stmt->fetchColumn();
+    }
+
+
     public function updateStatut(int $eventId, string $statut): void
     {
         if (!in_array($statut, ['valide', 'refuse'])) {

@@ -45,7 +45,7 @@ $events = $eventrep->filter($search);
 
 
 
-<section class="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
+<section id="about" class="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
     <div class="container mx-auto px-4">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-12">

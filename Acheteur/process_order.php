@@ -16,7 +16,9 @@ $orderRepo = new OrderRepository();
 $alreadyBought = $orderRepo->countTicketsByAcheteurAndEvent($acheteurId, $eventId);
 
 if ($alreadyBought + $quantite > 4) {
-    die("❌ Vous ne pouvez pas acheter plus de 4 billets pour ce match.");
+    $_SESSION['error'] = "❌ Vous ne pouvez pas acheter plus de 4 billets pour ce match.";
+    header("Location: buy_ticket.php?event=" . $eventId);
+    exit;
 }
 
 try {
