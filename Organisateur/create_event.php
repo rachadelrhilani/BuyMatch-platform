@@ -19,15 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'categories' => []
     ];
 
-    for ($i = 0; $i < 3; $i++) {
-        if (!empty($_POST['categorie'][$i]) && !empty($_POST['prix'][$i])) {
+    $totalPlaces = 0;
+
+    for ($i = 0; $i < count($_POST['categorie']); $i++) {
+
+        if (
+            !empty($_POST['categorie'][$i]) &&
+            !empty($_POST['prix'][$i]) &&
+            !empty($_POST['places'][$i])
+        ) {
+            $places = (int) $_POST['places'][$i];
+            $totalPlaces += $places;
+
             $data['categories'][] = [
-                'nom' => trim($_POST['categorie'][$i]),
-                'prix' => (float)$_POST['prix'][$i],
-                'places' => (int)$_POST['places'] 
+                'nom'     => trim($_POST['categorie'][$i]),
+                'prix'    => (float) $_POST['prix'][$i],
+                'places'  => $places
             ];
         }
     }
+
 
 
     $files = [
@@ -35,24 +46,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'equipe2_logo' => $_FILES['equipe2_logo']
     ];
 
-    if ($eventRepo->createEvent($data, $files, $organisateurId)) {
-        $success = "L'événement a été créé avec succès et est en attente de validation.";
+    if ($totalPlaces > 2000) {
+        $error = "❌ Le nombre total de places ne doit pas dépasser 2000.";
     } else {
-        $error = "Une erreur est survenue lors de la création de l'événement.";
+        if ($eventRepo->createEvent($data, $files, $organisateurId)) {
+            $success = "L'événement a été créé avec succès et est en attente de validation.";
+        } else {
+            $error = "Une erreur est survenue lors de la création de l'événement.";
+        }
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouter un événement</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100">
-    <?php require_once '../includes/navbar_organisateur.php'; ?> 
+    <?php require_once '../includes/navbar_organisateur.php'; ?>
 
     <div class="max-w-4xl mx-auto mt-10 bg-white p-8 shadow-lg rounded-xl">
 
@@ -66,16 +83,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="POST" class="space-y-5" enctype="multipart/form-data">
 
-            
+
             <div>
                 <label class="block font-medium mb-1">Titre de l'événement</label>
                 <input type="text" name="titre" required
-                       class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
+                    class="w-full border p-3 rounded focus:ring focus:ring-blue-300">
             </div>
 
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-               
+
                 <div class="border p-4 rounded-lg bg-gray-50">
                     <h3 class="font-semibold text-lg mb-3">Équipe Domicile</h3>
                     <label class="block mb-2">Nom de l'équipe</label>
@@ -84,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="file" name="equipe1_logo" accept="image/*" class="w-full border p-2 rounded">
                 </div>
 
-               
+
                 <div class="border p-4 rounded-lg bg-gray-50">
                     <h3 class="font-semibold text-lg mb-3">Équipe Extérieure</h3>
                     <label class="block mb-2">Nom de l'équipe</label>
@@ -94,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            
+
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block font-medium mb-1">Date</label>
@@ -106,35 +123,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            
+
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block font-medium mb-1">Lieu</label>
                     <input type="text" name="lieu" required class="w-full border p-3 rounded">
                 </div>
-               
+
             </div>
 
             <!-- Catégories & prix -->
             <div>
-                <label class="block font-medium mb-2">Catégories des places & prix</label>
+                <label class="block font-medium mb-2">
+                    Catégories, prix et nombre de places (max total : 2000)
+                </label>
+
                 <div class="grid grid-cols-3 gap-4">
+                    <!-- Catégorie 1 -->
                     <input type="text" name="categorie[]" placeholder="Catégorie 1" class="border p-2 rounded">
                     <input type="number" name="prix[]" placeholder="Prix" class="border p-2 rounded">
+                    <input type="number" name="places[]" placeholder="Places" class="border p-2 rounded">
 
+                    <!-- Catégorie 2 -->
                     <input type="text" name="categorie[]" placeholder="Catégorie 2" class="border p-2 rounded">
                     <input type="number" name="prix[]" placeholder="Prix" class="border p-2 rounded">
+                    <input type="number" name="places[]" placeholder="Places" class="border p-2 rounded">
 
+                    <!-- Catégorie 3 -->
                     <input type="text" name="categorie[]" placeholder="Catégorie 3" class="border p-2 rounded">
                     <input type="number" name="prix[]" placeholder="Prix" class="border p-2 rounded">
+                    <input type="number" name="places[]" placeholder="Places" class="border p-2 rounded">
                 </div>
             </div>
 
-            
-            <div>
-                <label class="block font-medium mb-1">Nombre total de places</label>
-                <input type="number" name="places" min="100" max="666" required class="w-full border p-3 rounded">
-            </div>
+
+
 
             <button class="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded font-semibold">
                 Créer l'événement
@@ -142,4 +165,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 </body>
+
 </html>

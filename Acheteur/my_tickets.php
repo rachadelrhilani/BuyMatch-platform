@@ -40,6 +40,7 @@ $tickets = $orderRepo->getTicketsByAcheteur($userId);
                     <p class="text-sm text-gray-600 mb-2">
                         📍 <?= htmlspecialchars($ticket['lieu']) ?><br>
                         🗓️ <?= date('d/m/Y H:i', strtotime($ticket['date_event'])) ?>
+                        <?= htmlspecialchars($ticket['prix']) ?><br>
                     </p>
 
                     <!-- Infos ticket -->

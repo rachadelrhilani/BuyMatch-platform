@@ -17,7 +17,7 @@ $user = $_SESSION['user'];
 <?php include '../includes/navbar_acheteur.php'; ?>
 
 <div class="max-w-2xl mx-auto p-6 mt-10 mb-10">
-    <!-- En-tête de la page -->
+   
     <div class="text-center mb-8">
         <h2 class="text-4xl font-bold text-gray-800 mb-2">Mon Profil</h2>
         <p class="text-gray-600">Gérez vos informations personnelles</p>
